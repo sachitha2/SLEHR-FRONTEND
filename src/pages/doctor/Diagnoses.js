@@ -100,7 +100,7 @@ const style = {
 export default function Diagnoses() {
   const [logindata,setLoginData] = useAtom(loginData);
   const [patientId,setPatientId] = useAtom(patientIdAtom);
-  
+
   const [page, setPage] = useState(0);
   const [diagnosisList,setDiagnosisList] = useState([{id:1,avatarUrl:`/static/mock-images/avatars/avatar_${1}.jpg`,name:'sachitha hirushan',company:'company',isVerified:false}]);
 
@@ -161,7 +161,10 @@ export default function Diagnoses() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
-
+  // Modal 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   // Fetch data start
 
@@ -182,17 +185,14 @@ export default function Diagnoses() {
       }
     }
     fetchData();
-  }, []);
+  }, [open]);
   const [tag, setTag] = useState('');
 
   const handleChange = (event) => {
     setTag(event.target.value);
   };
   // Fetch data end
-  // Modal 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  
 
   // form start
   const LoginSchema = Yup.object().shape({
@@ -228,7 +228,7 @@ export default function Diagnoses() {
           description:values.description, 
           title:values.title, 
           doctor:logindata.id, 
-          patient:"2"
+          patient:patientId
       },{
         headers: {
           Authorization: `Bearer ${logindata.token}`
