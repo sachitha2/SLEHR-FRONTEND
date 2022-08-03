@@ -16,6 +16,7 @@ const SORT_BY_OPTIONS = [
 
 export default function DoctorSort() {
   const [open, setOpen] = useState(null);
+  const [selected, setSelected] = useState('');
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -25,6 +26,10 @@ export default function DoctorSort() {
     setOpen(null);
   };
   
+  const handleChange = (event) => {
+    setSelected(event.target.value.label);
+    localStorage.setItem('Doctor', event.target.value);
+  };
 
   return (
     <>
@@ -36,7 +41,7 @@ export default function DoctorSort() {
       >
         Select User Role:&nbsp;
         <Typography component="span" variant="subtitle2" sx={{ color: 'text.secondary' }}>
-          Doctor
+        {selected}
         </Typography>
       </Button>
       <Menu
@@ -53,7 +58,7 @@ export default function DoctorSort() {
             selected={option.value === 'doctor'}
             onClick={handleClose}
             sx={{ typography: 'body2' }}
-            onCha
+            onChange={handleChange}
           >
             {option.label}
           </MenuItem>
