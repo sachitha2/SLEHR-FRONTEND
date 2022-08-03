@@ -65,7 +65,7 @@ export default function LoginForm() {
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <RHFCheckbox name="remember" label="Remember me" />
+        {/* <RHFCheckbox name="remember" label="Remember me" /> */}
         <Link variant="subtitle2" underline="hover">
           Forgot password?
         </Link>
