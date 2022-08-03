@@ -3,7 +3,6 @@ import { sentenceCase } from 'change-case';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
-// material
 import {
   Card,
   Table,
@@ -19,22 +18,25 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
-import Scrollbar from '../../components/Scrollbar';
 // components
-import Page from '../../components/Page';
-import Label from '../../components/Label';
-import Iconify from '../../components/Iconify';
-
-import SearchNotFound from '../../components/SearchNotFound';
-import { UserListHead, UserMoreMenu } from '../../sections/@dashboard/user';
-import USERLIST from '../../_mock/user';
+import Page from '../components/Page';
+import Label from '../components/Label';
+import Scrollbar from '../components/Scrollbar';
+import Iconify from '../components/Iconify';
+import SearchNotFound from '../components/SearchNotFound';
+import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+// mock
+import USERLIST from '../_mock/user';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Date', alignRight: false },
-  { id: 'company', label: 'Title', alignRight: false },
-  { id: 'role', label: 'Description', alignRight: false },
+  { id: 'name', label: 'Name', alignRight: false },
+  { id: 'company', label: 'Company', alignRight: false },
+  { id: 'role', label: 'Role', alignRight: false },
+  { id: 'isVerified', label: 'Verified', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
+  { id: '' },
 ];
 
 // ----------------------------------------------------------------------
@@ -68,8 +70,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function Diagnoses() {
-
+export default function User() {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -132,18 +133,20 @@ export default function Diagnoses() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="Dashboard: Blog">
+    <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          
+          <Typography variant="h4" gutterBottom>
+            User
+          </Typography>
           <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-            Add Diagnoses
+            New User
           </Button>
         </Stack>
 
-        {/* TABLE start */}
         <Card>
-          
+          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -183,6 +186,16 @@ export default function Diagnoses() {
                         </TableCell>
                         <TableCell align="left">{company}</TableCell>
                         <TableCell align="left">{role}</TableCell>
+                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left">
+                          <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
+                            {sentenceCase(status)}
+                          </Label>
+                        </TableCell>
+
+                        <TableCell align="right">
+                          <UserMoreMenu />
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -216,7 +229,6 @@ export default function Diagnoses() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        {/* //TABLE END */}
       </Container>
     </Page>
   );
