@@ -45,15 +45,25 @@ export default function LoginForm() {
     formState: { isSubmitting },
   } = methods;
   const [patientId,setPatientId] = useAtom(loginData);
-  const onSubmit = async () => {
+  const onSubmit = async (values) => {
     // TODO axios here
-    const response = await axios.post('auth/login',{
-      email: "dd@g.com",
-      password: "patient123"
-    });
-    console.log(response.data)
-    setPatientId(response.data)
-    navigate('/dashboard', { replace: true });
+    console.log(values)
+    try{
+        const response = await axios.post('auth/login',{
+        email: values.email,
+        password: values.password
+      });
+      
+      console.log(response.data)
+      setPatientId(response.data)
+      navigate('/dashboard', { replace: true });
+    }catch(e){
+      console.log(e)
+      alert(e)
+    }
+
+    
+    
   };
 
   return (
