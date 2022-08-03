@@ -17,9 +17,8 @@ import Scheduling from './pages/doctor/Scheduling';
 
 // radiographer imports
 import Doctor1 from './pages/radiographer/Doctor';
-import Demographics1 from './pages/radiographer/Demographic'
-import Scans1 from './pages/radiographer/Scans'
-
+import Demographics1 from './pages/radiographer/Demographic';
+import Scans1 from './pages/radiographer/Scans';
 
 import User from './pages/User';
 import Login from './pages/Login';
@@ -41,25 +40,29 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
-        { path: 'doctor', element: <Doctor />, children:
-        [
-          { path:'diagnoses',element:<Diagnoses/>},
-          { path:'allergies',element:<Allergies/>},
-          { path:'labtests',element:<LabTests/>},
-          { path:'prescriptions',element:<Prescriptions/>},
-          { path:'scans',element:<Scans/>},
-          { path:'vaccines',element:<Vaccines/>}
-        ]
+        {
+          path: 'doctor',
+          element: <Doctor />,
+          children: [
+            { path: 'diagnoses', element: <Diagnoses /> },
+            { path: 'allergies', element: <Allergies /> },
+            { path: 'labtests', element: <LabTests /> },
+            { path: 'prescriptions', element: <Prescriptions /> },
+            { path: 'scans', element: <Scans /> },
+            { path: 'vaccines', element: <Vaccines /> },
+          ],
         },
         { path: 'demographic', element: <Demographics /> },
         { path: 'scheduling', element: <Scheduling /> },
-        { path: 'radiographer', element: <Doctor1 />, children:
-        [
-          { path:'scans',element:<Scans1/>},
-        ]
-        }
+        {
+          path: 'radiographer',
+          element: <Doctor1 />,
+          children: [
+            { path: 'radiographer-demographic', element: <Demographics1 /> },
+            { path: 'radiographer-scans', element: <Scans1 /> },
+          ],
+        },
       ],
-      
     },
     {
       path: '/',

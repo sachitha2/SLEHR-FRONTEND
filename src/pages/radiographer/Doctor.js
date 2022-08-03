@@ -21,13 +21,13 @@ export default function Doctor() {
             <Button variant="contained" component={RouterLink} to="">
               Dashboard
             </Button>
-            <Button variant="contained" component={RouterLink} to="demographic">
+            <Button variant="contained" component={RouterLink} to="radiographer-demographic">
               Demographic
             </Button>
             <Button variant="contained" component={RouterLink} to="referrals">
               Referrals
             </Button>
-            <Button variant="contained" component={RouterLink} to="scans">
+            <Button variant="contained" component={RouterLink} to="radiographer-scans">
               Scans
             </Button>
         </Stack>

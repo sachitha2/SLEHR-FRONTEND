@@ -182,7 +182,7 @@ export default function Scans() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           
           <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
-            Request Scan
+            Add Scan
           </Button>
           <div>
           <Modal
@@ -196,7 +196,7 @@ export default function Scans() {
 
               
               <Typography id="modal-modal-title" variant="h3" component="h2">
-                Request Scan
+                Add Scan
               </Typography>
               <TextField disabled fullWidth id="doctor"  variant="outlined" value="doctor id"/>
               <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -219,7 +219,10 @@ export default function Scans() {
                 <MenuItem value={30}>Tag13</MenuItem>
               </Select> */}
               {/* <TextField type="text" fullWidth id="title"  label="Title" variant="outlined" /> */}
-              <TextField type="text" multiline rows={4} fullWidth id="notes"  label="Notes" variant="outlined" />
+              {/* <TextField type="text" multiline rows={4} fullWidth id="notes"  label="Notes" variant="outlined" /> */}
+              <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
+            Select File
+          </Button>
               <Button variant="contained">Save</Button>
               </Stack>
             </Box>
