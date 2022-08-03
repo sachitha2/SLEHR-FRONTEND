@@ -1,3 +1,4 @@
+import { atom, useAtom } from 'jotai'
 import { filter } from 'lodash';
 import { useState,useEffect } from 'react';
 // material
@@ -40,6 +41,11 @@ const TABLE_HEAD = [
   { id: 'description', label: 'Description', alignRight: false },
 ];
 
+
+const textAtom = atom('dd')
+const uppercaseAtom = atom(
+  (get) => get(textAtom).toUpperCase()
+)
 // ----------------------------------------------------------------------
 
 function descendingComparator(a, b, orderBy) {
@@ -177,11 +183,18 @@ export default function Diagnoses() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const Uppercase = () => {
+    const [uppercase] = useAtom(uppercaseAtom)
+    return (
+      <div>Uppercase: {uppercase}</div>
+    )
+  }
   return (
     <Page title="Dashboard: Blog">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          
+          <Uppercase/>
           <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
             Add Diagnoses
           </Button>
