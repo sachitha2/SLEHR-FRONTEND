@@ -11,6 +11,7 @@ import {patientIdAtom} from '../../App'
 export default function Doctor() {
   const [patientId,setPatientId] = useAtom(patientIdAtom);
   const [searchVal,setSearchVal] = useState('')
+  const [clickButton,setClickedButton] = useState('')
   const find = (e)=>{
     if(e.target.value === ""){
       setPatientId("")
@@ -21,8 +22,12 @@ export default function Doctor() {
   const findPerson = ()=>{
     
     if(searchVal !== ""){
-      setPatientId(searchVal)
+      setPatientId(2)
     }
+  }
+
+  const clickedButton = (btn)=>{
+    setClickedButton(btn)
   }
   return (
     <Page title="Dashboard: Blog">
@@ -36,29 +41,29 @@ export default function Doctor() {
           patientId === "" ? null : 
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
             
-          
-            <Button variant="contained" component={RouterLink} to="">
+            PHID {patientId}
+            {/* <Button variant="contained" component={RouterLink} to="">
               Dashboard
-            </Button>
-            <Button variant="contained" component={RouterLink} to="demographic">
+            </Button> */}
+            <Button variant="contained" disabled={clickButton === "demographic" } component={RouterLink} to="demographic" onClick={()=>clickedButton('demographic')}>
               Demographic
             </Button>
-            <Button variant="contained" component={RouterLink} to="diagnoses">
+            <Button variant="contained" component={RouterLink} disabled={clickButton === "diagnoses" } to="diagnoses" onClick={()=>clickedButton('diagnoses')}>
               Diagnoses
             </Button>
-            <Button variant="contained" component={RouterLink} to="vaccines">
+            <Button variant="contained" component={RouterLink} disabled={clickButton === "vaccines" } to="vaccines" onClick={()=>clickedButton('vaccines')}>
               Vaccines
             </Button>
-            <Button variant="contained" component={RouterLink} to="allergies">
+            <Button variant="contained" component={RouterLink} disabled={clickButton === "allergies" } to="allergies" onClick={()=>clickedButton('allergies')}>
               Allergies
             </Button>
-            <Button variant="contained" component={RouterLink} to="labtests">
+            <Button variant="contained" component={RouterLink} disabled={clickButton === "labtests" } to="labtests" onClick={()=>clickedButton('labtests')}>
               Lab Tests
             </Button>
-            <Button variant="contained" component={RouterLink} to="scans">
+            <Button variant="contained" component={RouterLink} disabled={clickButton === "scans" } to="scans" onClick={()=>clickedButton('scans')}>
               Scans
             </Button>
-            <Button variant="contained" component={RouterLink} to="prescriptions">
+            <Button variant="contained" component={RouterLink} disabled={clickButton === "prescriptions" } to="prescriptions" onClick={()=>clickedButton('prescriptions')}>
               Prescriptions
             </Button>
         </Stack>
