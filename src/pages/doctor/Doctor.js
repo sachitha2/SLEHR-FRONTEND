@@ -1,6 +1,6 @@
 import {useAtom} from 'jotai';
 import { useState,useEffect } from 'react';
-import { Link as RouterLink,Outlet } from 'react-router-dom';
+import { Link as RouterLink,Outlet ,useNavigate} from 'react-router-dom';
 // material
 import {  Button, Container, Stack, TextField } from '@mui/material';
 // components
@@ -9,12 +9,14 @@ import Iconify from '../../components/Iconify';
 import {patientIdAtom} from '../../App'
 
 export default function Doctor() {
+  const navigate = useNavigate();
   const [patientId,setPatientId] = useAtom(patientIdAtom);
   const [searchVal,setSearchVal] = useState('')
   const [clickButton,setClickedButton] = useState('')
   const find = (e)=>{
     if(e.target.value === ""){
       setPatientId("")
+      navigate('/dashboard/doctor', { replace: true });
     }
     setSearchVal(e.target.value)
   }
