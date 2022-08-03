@@ -28,6 +28,7 @@ import { LoadingButton } from '@mui/lab';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+// form end
 import Scrollbar from '../../components/Scrollbar';
 // components
 import Page from '../../components/Page';
@@ -222,7 +223,7 @@ export default function Allergies() {
           date:values.date, 
           description:values.description, 
           title:values.title, 
-          doctor:'1', 
+          doctor:logindata.id, 
           patient:"2"
       },{
         headers: {
