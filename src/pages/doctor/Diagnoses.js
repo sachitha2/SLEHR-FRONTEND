@@ -41,6 +41,8 @@ const TABLE_HEAD = [
   { id: 'description', label: 'Description', alignRight: false },
 ];
 
+
+
 // ----------------------------------------------------------------------
 
 function descendingComparator(a, b, orderBy) {
@@ -178,6 +180,8 @@ export default function Diagnoses() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  
   return (
     <Page title="Dashboard: Blog">
       <Container>
