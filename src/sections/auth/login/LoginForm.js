@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import {useAtom} from 'jotai';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // form
@@ -12,7 +13,7 @@ import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
 // eslint-disable-next-line import/named
 import { DoctorSort } from "../../@dashboard/products";
-
+import {loginData} from '../../../App'
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
@@ -42,8 +43,9 @@ export default function LoginForm() {
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
-
+  const [patientId,setPatientId] = useAtom(loginData);
   const onSubmit = async () => {
+    setPatientId('hellooo')
     navigate('/dashboard', { replace: true });
   };
 
