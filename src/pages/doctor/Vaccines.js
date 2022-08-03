@@ -35,9 +35,9 @@ import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'date', label: 'Date', alignRight: false },
-  { id: 'title', label: 'Title', alignRight: false },
-  { id: 'description', label: 'Description', alignRight: false },
+  { id: 'fromDate', label: 'Date', alignRight: false },
+  { id: 'toDate', label: 'End Date', alignRight: false },
+  { id: 'vaccine', label: 'Vaccine', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -245,7 +245,7 @@ export default function Vaccines() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name,date,title,description } = row;
+                    const { id, name,fromDate,toDate,vaccine } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -263,12 +263,12 @@ export default function Vaccines() {
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
                             <Typography variant="subtitle2" noWrap>
-                              {date}
+                              {fromDate}
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{title}</TableCell>
-                        <TableCell align="left">{description}</TableCell>
+                        <TableCell align="left">{toDate}</TableCell>
+                        <TableCell align="left">{vaccine}</TableCell>
                       </TableRow>
                     );
                   })}
