@@ -23,13 +23,13 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    phid: Yup.string().required('PHID is required'),
+    // phid: Yup.string().required('PHID is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    phid: '',
+    // phid: '',
     email: '',
     password: '',
     remember: true,
@@ -69,7 +69,7 @@ export default function LoginForm() {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        <RHFTextField name="phid" label="PHID" />
+        {/* <RHFTextField name="phid" label="PHID" /> */}
         <RHFTextField name="email" label="Email address" />
 
         <RHFTextField
