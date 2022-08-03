@@ -177,7 +177,7 @@ export default function Allergies() {
       }
     }
     fetchData();
-  }, []);
+  }, [open]);
   const [tag, setTag] = useState('');
 
   const handleChange = (event) => {
@@ -224,10 +224,10 @@ export default function Allergies() {
           description:values.description, 
           title:values.title, 
           doctor:logindata.id, 
-          patient:"2"
+          patient:patientId
       },{
         headers: {
-          Authorization: `Bearer ${TEMP_TOKEN}`
+          Authorization: `Bearer ${logindata.token}`
         }
       });
       setOpen(false)
