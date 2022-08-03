@@ -11,11 +11,11 @@ const navConfig = [
     path: '/dashboard/doctor',
     icon: getIcon('eva:people-fill'),
   },
-  {
-    title: 'Demographic',
-    path: '/dashboard/demographic',
-    icon: getIcon('eva:shopping-bag-fill'),
-  },
+  // {
+  //   title: 'Demographic',
+  //   path: '/dashboard/demographic',
+  //   icon: getIcon('eva:shopping-bag-fill'),
+  // },
   {
     title: 'Scheduling',
     path: '/dashboard/scheduling',

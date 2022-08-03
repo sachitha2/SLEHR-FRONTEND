@@ -21,6 +21,9 @@ export default function Doctor() {
             <Button variant="contained" component={RouterLink} to="">
               Dashboard
             </Button>
+            <Button variant="contained" component={RouterLink} to="demographic">
+              Demographic
+            </Button>
             <Button variant="contained" component={RouterLink} to="diagnoses">
               Diagnoses
             </Button>

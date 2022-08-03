@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import {useAtom} from 'jotai';
 import { useEffect } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
@@ -15,6 +16,7 @@ import NavSection from '../../components/NavSection';
 //
 import navConfig from './NavConfig';
 
+import {loginData} from '../../App'
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
@@ -42,6 +44,7 @@ DashboardSidebar.propTypes = {
 };
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
+  const [logindata,setLoginData] = useAtom(loginData);
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
@@ -70,10 +73,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar src={account.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {`${logindata.firstName} ${logindata.lastName}`}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
+                {logindata.userType}
               </Typography>
             </Box>
           </AccountStyle>

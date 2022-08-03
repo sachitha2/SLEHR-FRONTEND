@@ -12,7 +12,6 @@ import { LoadingButton } from '@mui/lab';
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
 // eslint-disable-next-line import/named
-import { DoctorSort } from "../../@dashboard/products";
 import {loginData} from '../../../App'
 import axios from '../../../utils/axios';
 // ----------------------------------------------------------------------
@@ -83,7 +82,7 @@ export default function LoginForm() {
             ),
           }}
         />
-        <DoctorSort/>
+        
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>

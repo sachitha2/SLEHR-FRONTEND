@@ -61,9 +61,10 @@ export default function Router() {
             { path: 'prescriptions', element: <Prescriptions /> },
             { path: 'scans', element: <Scans /> },
             { path: 'vaccines', element: <Vaccines /> },
+            { path: 'demographic', element: <Demographics /> },
           ],
         },
-        { path: 'demographic', element: <Demographics /> },
+        // { path: 'demographic', element: <Demographics /> },
         { path: 'scheduling', element: <Scheduling /> },
         {
           path: 'radiographer',
