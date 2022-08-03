@@ -25,7 +25,7 @@ export default function Doctor() {
   }
 
   const findPerson = async ()=>{
-    
+    setPatientId("")
     if(searchVal !== ""){
       // axios start
       
@@ -40,10 +40,12 @@ export default function Doctor() {
       console.log(e)
       alert(e)
     }
+    navigate('/dashboard/doctor', { replace: true });
       // axios end
       
     }
   }
+
 
   const clickedButton = (btn)=>{
     setClickedButton(btn)
