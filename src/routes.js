@@ -4,6 +4,7 @@ import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import Blog from './pages/Blog';
+// doctor imports
 import Doctor from './pages/doctor/Doctor';
 import Diagnoses from './pages/doctor/Diagnoses';
 import Allergies from './pages/doctor/Allergies';
@@ -11,7 +12,14 @@ import LabTests from './pages/doctor/LabTests';
 import Prescriptions from './pages/doctor/Prescriptions';
 import Scans from './pages/doctor/Scans';
 import Vaccines from './pages/doctor/Vaccines';
-import Demographics from './pages/Demographic';
+import Demographics from './pages/doctor/Demographic';
+import Scheduling from './pages/doctor/Scheduling';
+
+// radiographer imports
+import Doctor1 from './pages/radiographer/Doctor';
+import Demographics1 from './pages/radiographer/Demographic'
+import Scans1 from './pages/radiographer/Scans'
+
 
 import User from './pages/User';
 import Login from './pages/Login';
@@ -44,7 +52,14 @@ export default function Router() {
         ]
         },
         { path: 'demographic', element: <Demographics /> },
+        { path: 'scheduling', element: <Scheduling /> },
+        { path: 'radiographer', element: <Doctor1 />, children:
+        [
+          { path:'scans',element:<Scans1/>},
+        ]
+        }
       ],
+      
     },
     {
       path: '/',

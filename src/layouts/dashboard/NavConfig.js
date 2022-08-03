@@ -18,7 +18,7 @@ const navConfig = [
   },
   {
     title: 'Scheduling',
-    path: '/dashboard/blog',
+    path: '/dashboard/scheduling',
     icon: getIcon('eva:file-text-fill'),
   },
 ];
