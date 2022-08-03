@@ -154,14 +154,17 @@ export default function LabTests() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
-
+// Modal 
+const [open, setOpen] = useState(false);
+const handleOpen = () => setOpen(true);
+const handleClose = () => setOpen(false);
 
   // Fetch data start
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(`labtest/${patientId}`,
+        const response = await axios.get(`labtest/request/${patientId}`,
         {
           headers: {
             Authorization: `Bearer ${logindata.token}`
@@ -175,31 +178,25 @@ export default function LabTests() {
       }
     }
     fetchData();
-  }, []);
+  }, [open]);
   const [tag, setTag] = useState('');
 
   const handleChange = (event) => {
     setTag(event.target.value);
   };
   // Fetch data end
-  // Modal 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  
 
 
   // form start
   const LoginSchema = Yup.object().shape({
-    description: Yup.string().required('Description is required'),
     date: Yup.string().required('Date is required'),
-    title: Yup.string().required('Title is required'),
-    doctor: Yup.string().required('Doctor id is required'),
+    note: Yup.string().required('Note is required'),
   });
 
   const defaultValues = {
-    description: '',
     date: '',
-    title: '',
+    note: '',
     doctor: logindata.id,
     remember: true,
   };
@@ -217,11 +214,9 @@ export default function LabTests() {
     // TODO axios here
     console.log(logindata.id)
     try{
-        const response = await axios.post('allergy',{
-          tag:"Severe", 
+        const response = await axios.post('labtest/request',{
           date:values.date, 
-          description:values.description, 
-          title:values.title, 
+          note:values.note, 
           doctor:logindata.id, 
           patient:patientId
       },{
@@ -283,7 +278,7 @@ export default function LabTests() {
                 <MenuItem value={30}>Tag13</MenuItem>
               </Select> */}
               {/* <RHFTextField type="text" fullWidth id="title"  label="Title" variant="outlined" /> */}
-              <RHFTextField type="text" multiline rows={4} fullWidth name="notes"  label="Notes" variant="outlined" />
+              <RHFTextField type="text" multiline rows={4} fullWidth name="note"  label="Notes" variant="outlined" />
               <Button variant="contained" type="submit">Save</Button>
               </Stack>
               </FormProvider>
