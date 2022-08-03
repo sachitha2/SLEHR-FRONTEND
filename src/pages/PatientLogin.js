@@ -8,7 +8,8 @@ import useResponsive from '../hooks/useResponsive';
 import Page from '../components/Page';
 import Logo from '../components/Logo';
 // sections
-import { LoginForm } from '../sections/auth/login';
+// eslint-disable-next-line import/named
+import { PatientLoginForm } from '../sections/auth/patientlogin';
 
 // ----------------------------------------------------------------------
 
@@ -95,7 +96,7 @@ export default function Login() {
 
             
 
-            <LoginForm />
+            <PatientLoginForm />
 
             {/* {!smUp && (
               <Typography variant="body2" align="center" sx={{ mt: 3 }}>

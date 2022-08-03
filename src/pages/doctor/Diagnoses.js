@@ -1,13 +1,11 @@
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useState,useEffect } from 'react';
+// material
 // material
 import {
   Card,
   Table,
   Stack,
-  Avatar,
   Button,
   Checkbox,
   TableRow,
@@ -17,26 +15,29 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Modal,
+  Box,
+  TextField,
+  InputLabel,
+  Select,
+  MenuItem
 } from '@mui/material';
+import Scrollbar from '../../components/Scrollbar';
 // components
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserMoreMenu } from '../sections/@dashboard/user';
-// mock
-import USERLIST from '../_mock/user';
+import Page from '../../components/Page';
+import Iconify from '../../components/Iconify';
 
+import SearchNotFound from '../../components/SearchNotFound';
+import { UserListHead } from '../../sections/@dashboard/user';
+import axios from '../../utils/axios';
+// config
+import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: '' },
+  { id: 'date', label: 'Date', alignRight: false },
+  { id: 'title', label: 'Title', alignRight: false },
+  { id: 'description', label: 'Description', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -70,8 +71,22 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function User() {
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: 'none',
+  boxShadow: 24,
+  p: 4,
+};
+
+export default function Diagnoses() {
+
   const [page, setPage] = useState(0);
+  const [diagnosisList,setDiagnosisList] = useState([{id:1,avatarUrl:`/static/mock-images/avatars/avatar_${1}.jpg`,name:'sachitha hirushan',company:'company',isVerified:false}]);
 
   const [order, setOrder] = useState('asc');
 
@@ -91,7 +106,7 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = diagnosisList.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -122,28 +137,98 @@ export default function User() {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
+  
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - diagnosisList.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(diagnosisList, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
+
+
+  // Fetch data start
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get('diagnosis/2',
+        {
+          headers: {
+            Authorization: `Bearer ${TEMP_TOKEN}`
+          }
+        }
+        );
+        console.log(response.data)
+        setDiagnosisList(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
+  const [tag, setTag] = useState('');
+
+  const handleChange = (event) => {
+    setTag(event.target.value);
+  };
+  // Fetch data end
+  // Modal 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
-    <Page title="User">
+    <Page title="Dashboard: Blog">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            User
-          </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New User
+          
+          <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
+            Add Diagnoses
           </Button>
+          <div>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Stack spacing={1}>
+
+              
+              <Typography id="modal-modal-title" variant="h3" component="h2">
+                Add Diagnosis
+              </Typography>
+              <TextField disabled fullWidth id="doctor"  variant="outlined" value="doctor id"/>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Date
+              </Typography>
+              <TextField type="date" fullWidth id="date"  variant="outlined" />
+              <Typography id="modal-modal-title" variant="h5" component="h2">
+                Diagnosis Details
+              </Typography>
+              <InputLabel id="tag-label">Tag</InputLabel>
+              <Select
+                labelId="tag-label"
+                id="tag-select"
+                value={tag}
+                label="Tag"
+                onChange={handleChange}
+              >
+                <MenuItem value={10}>Tag1</MenuItem>
+                <MenuItem value={20}>Tag2</MenuItem>
+                <MenuItem value={30}>Tag13</MenuItem>
+              </Select>
+              <TextField type="text" fullWidth id="title"  label="Title" variant="outlined" />
+              <TextField type="text" multiline rows={4} fullWidth id="description"  label="Description" variant="outlined" />
+              <Button variant="contained">Save</Button>
+              </Stack>
+            </Box>
+          </Modal>
+    </div>
         </Stack>
 
+        {/* TABLE start */}
         <Card>
           
           <Scrollbar>
@@ -153,14 +238,14 @@ export default function User() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={diagnosisList.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
+                    const { id, name,date,title,description } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -173,28 +258,17 @@ export default function User() {
                         aria-checked={isItemSelected}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {date}
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{company}</TableCell>
-                        <TableCell align="left">{role}</TableCell>
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
-                        <TableCell align="left">
-                          <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                            {sentenceCase(status)}
-                          </Label>
-                        </TableCell>
-
-                        <TableCell align="right">
-                          <UserMoreMenu />
-                        </TableCell>
+                        <TableCell align="left">{title}</TableCell>
+                        <TableCell align="left">{description}</TableCell>
                       </TableRow>
                     );
                   })}
@@ -221,13 +295,14 @@ export default function User() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={diagnosisList.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
+        {/* //TABLE END */}
       </Container>
     </Page>
   );

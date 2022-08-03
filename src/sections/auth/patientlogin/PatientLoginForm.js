@@ -10,8 +10,6 @@ import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
-// eslint-disable-next-line import/named
-import { DoctorSort } from "../../@dashboard/products";
 
 // ----------------------------------------------------------------------
 
@@ -21,13 +19,11 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    phid: Yup.string().required('PHID is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    phid: '',
     email: '',
     password: '',
     remember: true,
@@ -50,7 +46,6 @@ export default function LoginForm() {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        <RHFTextField name="phid" label="PHID" />
         <RHFTextField name="email" label="Email address" />
 
         <RHFTextField
@@ -67,7 +62,6 @@ export default function LoginForm() {
             ),
           }}
         />
-        <DoctorSort/>
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
