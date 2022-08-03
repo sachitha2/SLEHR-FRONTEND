@@ -1,5 +1,5 @@
 import {useAtom} from 'jotai';
-
+import { useState,useEffect } from 'react';
 import { Link as RouterLink,Outlet } from 'react-router-dom';
 // material
 import {  Button, Container, Stack, TextField } from '@mui/material';
@@ -10,12 +10,31 @@ import {patientIdAtom} from '../../App'
 
 export default function Doctor() {
   const [patientId,setPatientId] = useAtom(patientIdAtom);
+  const [searchVal,setSearchVal] = useState('')
+  const find = (e)=>{
+    if(e.target.value === ""){
+      setPatientId("")
+    }
+    setSearchVal(e.target.value)
+  }
+
+  const findPerson = ()=>{
+    
+    if(searchVal !== ""){
+      setPatientId(searchVal)
+    }
+  }
   return (
     <Page title="Dashboard: Blog">
       <Container>
-        {patientId}
-        <TextField id="outlined-basic" label="Find Patient by Id" variant="outlined" />
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
+        
+        <Stack direction="row" space={2}>
+          <TextField id="outlined-basic" label="Find Patient by Id" variant="outlined" onChange={find} />
+          <Button variant="contained" onClick={findPerson}>Find</Button>
+        </Stack>
+        {
+          patientId === "" ? null : 
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
             
           
             <Button variant="contained" component={RouterLink} to="">
@@ -43,6 +62,8 @@ export default function Doctor() {
               Prescriptions
             </Button>
         </Stack>
+        }
+        
       </Container>
       <Outlet />
     </Page>
