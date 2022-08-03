@@ -14,6 +14,7 @@ import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hoo
 // eslint-disable-next-line import/named
 import { DoctorSort } from "../../@dashboard/products";
 import {loginData} from '../../../App'
+import axios from '../../../utils/axios';
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
@@ -46,8 +47,12 @@ export default function LoginForm() {
   const [patientId,setPatientId] = useAtom(loginData);
   const onSubmit = async () => {
     // TODO axios here
-    
-    setPatientId({id:'23'})
+    const response = await axios.post('auth/login',{
+      email: "dd@g.com",
+      password: "patient123"
+    });
+    console.log(response.data)
+    setPatientId(response.data)
     navigate('/dashboard', { replace: true });
   };
 
