@@ -10,6 +10,7 @@ import { BaseOptionChartStyle } from './components/chart/BaseOptionChart';
 // ----------------------------------------------------------------------
 
 export const patientIdAtom = atom("ihhhd")
+export const loginData = atom("")
 
 export default function App() {
   return (
