@@ -40,7 +40,7 @@ import axios from '../../utils/axios';
 // config
 import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
-import {loginData} from '../../App'
+import {loginData,patientIdAtom} from '../../App'
 
 const TABLE_HEAD = [
   { id: 'fromDate', label: 'Date', alignRight: false },
@@ -163,7 +163,7 @@ export default function Vaccines() {
         const response = await axios.get('vaccine/2',
         {
           headers: {
-            Authorization: `Bearer ${TEMP_TOKEN}`
+            Authorization: `Bearer ${logindata.token}`
           }
         }
         );
@@ -223,7 +223,7 @@ export default function Vaccines() {
           vaccine:values.vaccine,
       },{
         headers: {
-          Authorization: `Bearer ${TEMP_TOKEN}`
+          Authorization: `Bearer ${logindata.token}`
         }
       });
       setOpen(false)

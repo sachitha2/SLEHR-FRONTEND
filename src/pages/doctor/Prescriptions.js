@@ -1,5 +1,6 @@
 import { filter } from 'lodash';
 import { useState,useEffect } from 'react';
+import {useAtom} from 'jotai';
 // material
 // material
 import {
@@ -33,6 +34,8 @@ import axios from '../../utils/axios';
 // config
 import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
+
+import {loginData,patientIdAtom} from '../../App'
 
 const TABLE_HEAD = [
   { id: 'startDate', label: 'Start Date', alignRight: false },
@@ -86,6 +89,8 @@ const style = {
 };
 
 export default function Prescriptions() {
+  const [logindata,setLoginData] = useAtom(loginData);
+  const [patientId,setPatientId] = useAtom(patientIdAtom);
 
   const [page, setPage] = useState(0);
   const [vaccinesList,setPrescriptionsList] = useState([{id:1,avatarUrl:`/static/mock-images/avatars/avatar_${1}.jpg`,name:'sachitha hirushan',company:'company',isVerified:false}]);
@@ -154,10 +159,10 @@ export default function Prescriptions() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('prescription/2',
+        const response = await axios.get(`prescription/${patientId}`,
         {
           headers: {
-            Authorization: `Bearer ${TEMP_TOKEN}`
+            Authorization: `Bearer ${logindata.token}`
           }
         }
         );

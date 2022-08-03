@@ -43,7 +43,7 @@ import axios from '../../utils/axios';
 // config
 import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
-import {loginData} from '../../App'
+import {loginData,patientIdAtom} from '../../App'
 
 
 const TABLE_HEAD = [
@@ -99,6 +99,8 @@ const style = {
 
 export default function Diagnoses() {
   const [logindata,setLoginData] = useAtom(loginData);
+  const [patientId,setPatientId] = useAtom(patientIdAtom);
+  
   const [page, setPage] = useState(0);
   const [diagnosisList,setDiagnosisList] = useState([{id:1,avatarUrl:`/static/mock-images/avatars/avatar_${1}.jpg`,name:'sachitha hirushan',company:'company',isVerified:false}]);
 
@@ -166,10 +168,10 @@ export default function Diagnoses() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('diagnosis/2',
+        const response = await axios.get(`diagnosis/${patientId}`,
         {
           headers: {
-            Authorization: `Bearer ${TEMP_TOKEN}`
+            Authorization: `Bearer ${logindata.token}`
           }
         }
         );
@@ -229,7 +231,7 @@ export default function Diagnoses() {
           patient:"2"
       },{
         headers: {
-          Authorization: `Bearer ${TEMP_TOKEN}`
+          Authorization: `Bearer ${logindata.token}`
         }
       });
       setOpen(false)

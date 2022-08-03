@@ -163,7 +163,6 @@ export default function Allergies() {
   useEffect(() => {
     async function fetchData() {
       try {
-        alert(patientId)
         const response = await axios.get(`allergy/${patientId}`,
         {
           headers: {
