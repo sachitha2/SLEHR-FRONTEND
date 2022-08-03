@@ -93,6 +93,7 @@ const style = {
 
 export default function Vaccines() {
   const [logindata,setLoginData] = useAtom(loginData);
+  const [patientId,setPatientId] = useAtom(patientIdAtom);
   const [page, setPage] = useState(0);
   const [vaccinesList,setVaccinesList] = useState([{id:1,avatarUrl:`/static/mock-images/avatars/avatar_${1}.jpg`,name:'sachitha hirushan',company:'company',isVerified:false}]);
 
@@ -160,7 +161,7 @@ export default function Vaccines() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('vaccine/2',
+        const response = await axios.get(`vaccine/${patientId}`,
         {
           headers: {
             Authorization: `Bearer ${logindata.token}`
