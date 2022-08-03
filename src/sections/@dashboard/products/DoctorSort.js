@@ -1,8 +1,10 @@
 import { useState } from 'react';
 // material
-import { Menu, Button, MenuItem, Typography } from '@mui/material';
+import { Menu, Button, MenuItem, Typography, Select } from '@mui/material';
+import {useAtom} from 'jotai';
 // component
 import Iconify from '../../../components/Iconify';
+
 
 // ----------------------------------------------------------------------
 
@@ -27,24 +29,28 @@ export default function DoctorSort() {
   };
   
   const handleChange = (event) => {
-    setSelected(event.target.value.label);
+    setSelected(event.target.value);
     localStorage.setItem('Doctor', event.target.value);
   };
 
   return (
     <>
-      <Button
-        color="inherit"
-        disableRipple
-        onClick={handleOpen}
-        endIcon={<Iconify icon={open ? 'eva:chevron-up-fill' : 'eva:chevron-down-fill'} />}
-      >
-        Select User Role:&nbsp;
-        <Typography component="span" variant="subtitle2" sx={{ color: 'text.secondary' }}>
-        {selected}
-        </Typography>
-      </Button>
-      <Menu
+      <Select
+                labelId="tag-label"
+                id="tag-select"
+                value={selected}
+                label="Doctor"
+                onChange={handleChange}
+              >
+                <MenuItem value={'doctor'}>Doctor</MenuItem>
+                <MenuItem value={'radiographer'}>Radiographer</MenuItem>
+                <MenuItem value={'pharmacist'}>Pharmacist</MenuItem>
+                <MenuItem value={'pathologist'}>Pathologist</MenuItem>
+                <MenuItem value={'attendant'}>Attendant</MenuItem>
+                {/* <MenuItem value={20}>Tag2</MenuItem>
+                <MenuItem value={30}>Tag13</MenuItem> */}
+              </Select>
+      {/* <Menu
         keepMounted
         anchorEl={open}
         open={Boolean(open)}
@@ -52,18 +58,18 @@ export default function DoctorSort() {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        {SORT_BY_OPTIONS.map((option) => (
+        {SORT_BY_OPTIONS.map((value, label) => (
           <MenuItem
-            key={option.value}
-            selected={option.value === 'doctor'}
+            key={value.value}
+            selected={value.value === 'doctor'}
             onClick={handleClose}
             sx={{ typography: 'body2' }}
             onChange={handleChange}
           >
-            {option.label}
+            {label}
           </MenuItem>
         ))}
-      </Menu>
+      </Menu> */}
     </>
   );
 }

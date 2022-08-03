@@ -5,6 +5,7 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import Blog from './pages/Blog';
 // doctor imports
+import Dashboard from './pages/doctor/Dashboard';
 import Doctor from './pages/doctor/Doctor';
 import Diagnoses from './pages/doctor/Diagnoses';
 import Allergies from './pages/doctor/Allergies';
@@ -29,6 +30,9 @@ import Prescriptions1 from './pages/pharmacist/Prescriptions'
 import Doctor3 from './pages/pathologist/Doctor';
 import Demographics3 from './pages/pathologist/Demographic';
 import LabTests1 from './pages/pathologist/LabTests';
+
+// attendant imports 
+import Doctor4 from './pages/attendant/Doctor';
 
 
 import User from './pages/User';
@@ -55,6 +59,7 @@ export default function Router() {
           path: 'doctor',
           element: <Doctor />,
           children: [
+            { path: 'dashboard', element: <Dashboard /> },
             { path: 'diagnoses', element: <Diagnoses /> },
             { path: 'allergies', element: <Allergies /> },
             { path: 'labtests', element: <LabTests /> },
@@ -88,6 +93,15 @@ export default function Router() {
           children: [
             { path: 'pathologist-demographic', element: <Demographics3 /> },
             { path: 'pathologist-labtests', element: <LabTests1 /> },
+          ],
+        },
+        {
+          path: 'attendant',
+          element: <Doctor4 />,
+          children: [
+            { path: 'attendant-demographic', element: <Demographics1 /> },
+            { path: 'attendant-dashboard', element: <Dashboard /> },
+            { path: 'attendant-scheduling', element: <Scheduling /> },
           ],
         }
       ],

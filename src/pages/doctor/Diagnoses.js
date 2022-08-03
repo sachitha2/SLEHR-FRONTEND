@@ -234,7 +234,7 @@ export default function Diagnoses() {
         </Stack>
 
         {/* TABLE start */}
-        <Card>
+        <Card name="tech">
           
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>

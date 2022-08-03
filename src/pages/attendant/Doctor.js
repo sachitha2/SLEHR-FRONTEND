@@ -18,26 +18,17 @@ export default function Doctor() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
             
           
-            <Button variant="contained" component={RouterLink} to="dashboard">
+            <Button variant="contained" component={RouterLink} to="">
               Dashboard
             </Button>
-            <Button variant="contained" component={RouterLink} to="diagnoses">
-              Diagnoses
+            <Button variant="contained" component={RouterLink} to="attendant-demographic">
+              Demographic
             </Button>
-            <Button variant="contained" component={RouterLink} to="vaccines">
-              Vaccines
+            <Button variant="contained" component={RouterLink} to="attendant-dashboard">
+              Dashboard
             </Button>
-            <Button variant="contained" component={RouterLink} to="allergies">
-              Allergies
-            </Button>
-            <Button variant="contained" component={RouterLink} to="labtests">
-              Lab Tests
-            </Button>
-            <Button variant="contained" component={RouterLink} to="scans">
-              Scans
-            </Button>
-            <Button variant="contained" component={RouterLink} to="prescriptions">
-              Prescriptions
+            <Button variant="contained" component={RouterLink} to="attendant-scheduling">
+              Scheduling
             </Button>
         </Stack>
       </Container>
