@@ -45,7 +45,9 @@ export default function LoginForm() {
   } = methods;
   const [patientId,setPatientId] = useAtom(loginData);
   const onSubmit = async () => {
-    setPatientId('hellooo')
+    // TODO axios here
+    
+    setPatientId({id:'23'})
     navigate('/dashboard', { replace: true });
   };
 

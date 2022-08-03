@@ -46,7 +46,7 @@ export default function DashboardLayout() {
       
       <>
       
-        {patientId === "" ? loginAgain() : 
+        {patientId.id === "" ? loginAgain() : 
         <RootStyle>
           <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
           <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
