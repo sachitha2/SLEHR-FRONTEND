@@ -1,14 +1,11 @@
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useState,useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 // material
 // material
 import {
   Card,
   Table,
   Stack,
-  Avatar,
   Button,
   Checkbox,
   TableRow,
@@ -24,12 +21,10 @@ import {
 import Scrollbar from '../../components/Scrollbar';
 // components
 import Page from '../../components/Page';
-import Label from '../../components/Label';
 import Iconify from '../../components/Iconify';
 
 import SearchNotFound from '../../components/SearchNotFound';
-import { UserListHead, UserMoreMenu } from '../../sections/@dashboard/user';
-import diagnosisList from '../../_mock/user';
+import { UserListHead } from '../../sections/@dashboard/user';
 import axios from '../../utils/axios';
 // config
 import { TEMP_TOKEN } from '../../config';
@@ -151,11 +146,8 @@ export default function Diagnoses() {
   // Fetch data start
 
   useEffect(() => {
-    // dispatch(getProducts());
     async function fetchData() {
       try {
-        //   const response = await axios.get('/business/biz-user-add/shop/hello');
-        // const response = await axios.get('/business/item');
         const response = await axios.get('diagnosis/2',
         {
           headers: {
@@ -163,7 +155,6 @@ export default function Diagnoses() {
           }
         }
         );
-        // setCategoryList(response.data);
         console.log(response.data)
         setDiagnosisList(response.data);
       } catch (error) {
@@ -235,7 +226,7 @@ export default function Diagnoses() {
                         aria-checked={isItemSelected}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
