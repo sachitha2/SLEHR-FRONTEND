@@ -84,9 +84,20 @@ const style = {
 };
 
 export default function Allergies() {
+  const initialAllergiesState = {
+    tag: "",
+    date: "",
+    description: "",
+    title: "",
+    doctor: "",
+    patient: "",
+  }
+
+  const [allergies, setAllergies] = useState(initialAllergiesState);
+  const [submitted, setSubmitted] = useState(false);
 
   const [page, setPage] = useState(0);
-  const [vaccinesList,setAllergiesList] = useState([{id:1,avatarUrl:`/static/mock-images/avatars/avatar_${1}.jpg`,name:'sachitha hirushan',company:'company',isVerified:false}]);
+  const [allergiesList,setAllergiesList] = useState([{id:1,avatarUrl:`/static/mock-images/avatars/avatar_${1}.jpg`,name:'sachitha hirushan',company:'company',isVerified:false}]);
 
   const [order, setOrder] = useState('asc');
 
@@ -106,7 +117,7 @@ export default function Allergies() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = vaccinesList.map((n) => n.name);
+      const newSelecteds = allergiesList.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -137,11 +148,27 @@ export default function Allergies() {
     setPage(0);
   };
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setAllergies({ ...allergies, [name]: value});
+  };
+
+  const saveAllergies = () => {
+    const data = {
+      tag: allergies.tag,
+    date: allergies.date,
+    description: allergies.description,
+    title: allergies.title,
+    doctor: allergies.doctor,
+    patient: allergies.patient,
+    }
+  };
+
   
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - vaccinesList.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - allergiesList.length) : 0;
 
-  const filteredUsers = applySortFilter(vaccinesList, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(allergiesList, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
@@ -238,7 +265,7 @@ export default function Allergies() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={vaccinesList.length}
+                  rowCount={allergiesList.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -295,7 +322,7 @@ export default function Allergies() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={vaccinesList.length}
+            count={allergiesList.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
