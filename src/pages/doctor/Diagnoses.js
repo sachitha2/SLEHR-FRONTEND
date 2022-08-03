@@ -18,6 +18,8 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Modal,
+  Box
 } from '@mui/material';
 import Scrollbar from '../../components/Scrollbar';
 // components
@@ -27,16 +29,16 @@ import Iconify from '../../components/Iconify';
 
 import SearchNotFound from '../../components/SearchNotFound';
 import { UserListHead, UserMoreMenu } from '../../sections/@dashboard/user';
-import USERLIST from '../../_mock/user';
+import diagnosisList from '../../_mock/user';
 import axios from '../../utils/axios';
 // config
 import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Date', alignRight: false },
-  { id: 'company', label: 'Title', alignRight: false },
-  { id: 'role', label: 'Description', alignRight: false },
+  { id: 'date', label: 'Date', alignRight: false },
+  { id: 'title', label: 'Title', alignRight: false },
+  { id: 'description', label: 'Description', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -70,9 +72,22 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 export default function Diagnoses() {
 
   const [page, setPage] = useState(0);
+  const [diagnosisList,setDiagnosisList] = useState([{id:1,avatarUrl:`/static/mock-images/avatars/avatar_${1}.jpg`,name:'sachitha hirushan',company:'company',isVerified:false}]);
 
   const [order, setOrder] = useState('asc');
 
@@ -92,7 +107,7 @@ export default function Diagnoses() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = diagnosisList.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -123,13 +138,11 @@ export default function Diagnoses() {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
+  
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - diagnosisList.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(diagnosisList, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
@@ -151,7 +164,8 @@ export default function Diagnoses() {
         }
         );
         // setCategoryList(response.data);
-        console.log(response)
+        console.log(response.data)
+        setDiagnosisList(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -160,15 +174,35 @@ export default function Diagnoses() {
   }, []);
 
   // Fetch data end
-
+  // Modal 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <Page title="Dashboard: Blog">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
             Add Diagnoses
           </Button>
+          <div>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Text in a modal
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              </Typography>
+            </Box>
+          </Modal>
+    </div>
         </Stack>
 
         {/* TABLE start */}
@@ -181,14 +215,14 @@ export default function Diagnoses() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={diagnosisList.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
+                    const { id, name,date,title,description } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -205,14 +239,13 @@ export default function Diagnoses() {
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {date}
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{company}</TableCell>
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="left">{title}</TableCell>
+                        <TableCell align="left">{description}</TableCell>
                       </TableRow>
                     );
                   })}
@@ -239,7 +272,7 @@ export default function Diagnoses() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={diagnosisList.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
