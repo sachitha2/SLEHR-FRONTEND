@@ -61,9 +61,6 @@ export default function LoginForm() {
       console.log(e)
       alert(e)
     }
-
-    
-    
   };
 
   return (
