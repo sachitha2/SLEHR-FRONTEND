@@ -29,8 +29,8 @@ export default function LoginForm() {
 
   const defaultValues = {
     // phid: '',
-    email: '',
-    password: '',
+    email: 'dd@g.com',
+    password: 'patient123',
     remember: true,
   };
 
