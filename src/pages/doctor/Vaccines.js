@@ -154,7 +154,10 @@ export default function Vaccines() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
-
+  // Modal 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   // Fetch data start
 
@@ -175,17 +178,14 @@ export default function Vaccines() {
       }
     }
     fetchData();
-  }, []);
+  }, [open]);
   const [tag, setTag] = useState('');
 
   const handleChange = (event) => {
     setTag(event.target.value);
   };
   // Fetch data end
-  // Modal 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  
   // form start
   const LoginSchema = Yup.object().shape({
     vaccine: Yup.string().required('Vaccine is required'),
@@ -217,7 +217,7 @@ export default function Vaccines() {
     try{
         const response = await axios.post('vaccine',{
           doctor:logindata.id, 
-          patient:"2",
+          patient:patientId,
           note:values.note, 
           toDate:values.toDate, 
           fromDate:values.fromDate, 
