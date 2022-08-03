@@ -16,7 +16,11 @@ import {
   TableContainer,
   TablePagination,
   Modal,
-  Box
+  Box,
+  TextField,
+  InputLabel,
+  Select,
+  MenuItem
 } from '@mui/material';
 import Scrollbar from '../../components/Scrollbar';
 // components
@@ -74,7 +78,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  border: 'none',
   boxShadow: 24,
   p: 4,
 };
@@ -163,7 +167,11 @@ export default function Diagnoses() {
     }
     fetchData();
   }, []);
+  const [tag, setTag] = useState('');
 
+  const handleChange = (event) => {
+    setTag(event.target.value);
+  };
   // Fetch data end
   // Modal 
   const [open, setOpen] = useState(false);
@@ -185,12 +193,36 @@ export default function Diagnoses() {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
+              <Stack spacing={1}>
+
+              
+              <Typography id="modal-modal-title" variant="h3" component="h2">
+                Add Diagnosis
+              </Typography>
+              <TextField disabled fullWidth id="doctor"  variant="outlined" value="doctor id"/>
               <Typography id="modal-modal-title" variant="h6" component="h2">
-                Text in a modal
+                Date
               </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              <TextField type="date" fullWidth id="date"  variant="outlined" />
+              <Typography id="modal-modal-title" variant="h5" component="h2">
+                Diagnosis Details
               </Typography>
+              <InputLabel id="tag-label">Tag</InputLabel>
+              <Select
+                labelId="tag-label"
+                id="tag-select"
+                value={tag}
+                label="Tag"
+                onChange={handleChange}
+              >
+                <MenuItem value={10}>Tag1</MenuItem>
+                <MenuItem value={20}>Tag2</MenuItem>
+                <MenuItem value={30}>Tag13</MenuItem>
+              </Select>
+              <TextField type="text" fullWidth id="title"  label="Title" variant="outlined" />
+              <TextField type="text" multiline rows={4} fullWidth id="description"  label="Description" variant="outlined" />
+              <Button variant="contained">Save</Button>
+              </Stack>
             </Box>
           </Modal>
     </div>
