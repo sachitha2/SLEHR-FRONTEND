@@ -11,6 +11,7 @@ import LabTests from './pages/doctor/LabTests';
 import Prescriptions from './pages/doctor/Prescriptions';
 import Scans from './pages/doctor/Scans';
 import Vaccines from './pages/doctor/Vaccines';
+import Demographics from './pages/Demographic';
 
 import User from './pages/User';
 import Login from './pages/Login';
@@ -42,6 +43,7 @@ export default function Router() {
           { path:'vaccines',element:<Vaccines/>}
         ]
         },
+        { path: 'demographic', element: <Demographics /> },
       ],
     },
     {

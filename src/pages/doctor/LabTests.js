@@ -182,7 +182,7 @@ export default function LabTests() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           
           <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
-            Add LabTests
+          Request LabTests
           </Button>
           <div>
           <Modal
@@ -196,7 +196,7 @@ export default function LabTests() {
 
               
               <Typography id="modal-modal-title" variant="h3" component="h2">
-                Add LabTests
+                Request LabTests
               </Typography>
               <TextField disabled fullWidth id="doctor"  variant="outlined" value="doctor id"/>
               <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -204,9 +204,9 @@ export default function LabTests() {
               </Typography>
               <TextField type="date" fullWidth id="date"  variant="outlined" />
               <Typography id="modal-modal-title" variant="h5" component="h2">
-                LabTests Details
+                Notes
               </Typography>
-              <InputLabel id="tag-label">Tag</InputLabel>
+              {/* <InputLabel id="tag-label">Tag</InputLabel>
               <Select
                 labelId="tag-label"
                 id="tag-select"
@@ -217,9 +217,9 @@ export default function LabTests() {
                 <MenuItem value={10}>Tag1</MenuItem>
                 <MenuItem value={20}>Tag2</MenuItem>
                 <MenuItem value={30}>Tag13</MenuItem>
-              </Select>
-              <TextField type="text" fullWidth id="title"  label="Title" variant="outlined" />
-              <TextField type="text" multiline rows={4} fullWidth id="description"  label="Description" variant="outlined" />
+              </Select> */}
+              {/* <TextField type="text" fullWidth id="title"  label="Title" variant="outlined" /> */}
+              <TextField type="text" multiline rows={4} fullWidth id="notes"  label="Notes" variant="outlined" />
               <Button variant="contained">Save</Button>
               </Stack>
             </Box>

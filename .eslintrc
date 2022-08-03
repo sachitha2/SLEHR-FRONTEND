@@ -8,7 +8,7 @@
     "airbnb",
     "plugin:jsx-a11y/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:import/typescript",
+    // "plugin:import/typescript",
     "prettier"
   ],
   "plugins": [
@@ -26,7 +26,7 @@
     }
   },
   "rules": {
-    "import/extensions": "off",
+    // "import/extensions": "off",
     "no-new": 0,
     "no-shadow": 0,
     "no-console": 0,

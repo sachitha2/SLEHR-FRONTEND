@@ -209,7 +209,18 @@ export default function Prescriptions() {
               <Typography id="modal-modal-title" variant="h5" component="h2">
                 Prescriptions Details
               </Typography>
-              <InputLabel id="tag-label">Tag</InputLabel>
+              <TextField type="text" fullWidth id="medication"  label="Medication" variant="outlined" />
+              <TextField type="text" fullWidth id="qty"  label="Qty" variant="outlined" />
+              <TextField type="text" fullWidth id="refills"  label="Refills" variant="outlined" />
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Start Date
+              </Typography>
+              <TextField type="date" fullWidth id="startdate"  variant="outlined" />
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Stop Date
+              </Typography>
+              <TextField type="date" fullWidth id="stopdate"  variant="outlined" />
+              {/* <InputLabel id="tag-label">Tag</InputLabel>
               <Select
                 labelId="tag-label"
                 id="tag-select"
@@ -220,9 +231,9 @@ export default function Prescriptions() {
                 <MenuItem value={10}>Tag1</MenuItem>
                 <MenuItem value={20}>Tag2</MenuItem>
                 <MenuItem value={30}>Tag13</MenuItem>
-              </Select>
-              <TextField type="text" fullWidth id="title"  label="Title" variant="outlined" />
-              <TextField type="text" multiline rows={4} fullWidth id="description"  label="Description" variant="outlined" />
+              </Select> */}
+              {/* <TextField type="text" fullWidth id="title"  label="Title" variant="outlined" /> */}
+              <TextField type="text" multiline rows={4} fullWidth id="instructions"  label="Instructions" variant="outlined" />
               <Button variant="contained">Save</Button>
               </Stack>
             </Box>

@@ -201,13 +201,17 @@ export default function Vaccines() {
               </Typography>
               <TextField disabled fullWidth id="doctor"  variant="outlined" value="doctor id"/>
               <Typography id="modal-modal-title" variant="h6" component="h2">
-                Date
+                From Date
+              </Typography>
+              <TextField type="date" fullWidth id="date"  variant="outlined" />
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                To Date
               </Typography>
               <TextField type="date" fullWidth id="date"  variant="outlined" />
               <Typography id="modal-modal-title" variant="h5" component="h2">
                 Vaccines Details
               </Typography>
-              <InputLabel id="tag-label">Tag</InputLabel>
+              {/* <InputLabel id="tag-label">Tag</InputLabel>
               <Select
                 labelId="tag-label"
                 id="tag-select"
@@ -218,9 +222,9 @@ export default function Vaccines() {
                 <MenuItem value={10}>Tag1</MenuItem>
                 <MenuItem value={20}>Tag2</MenuItem>
                 <MenuItem value={30}>Tag13</MenuItem>
-              </Select>
-              <TextField type="text" fullWidth id="title"  label="Title" variant="outlined" />
-              <TextField type="text" multiline rows={4} fullWidth id="description"  label="Description" variant="outlined" />
+              </Select> */}
+              <TextField type="text" fullWidth id="vaccine"  label="Vaccine" variant="outlined" />
+              <TextField type="text" multiline rows={4} fullWidth id="notes"  label="Notes" variant="outlined" />
               <Button variant="contained">Save</Button>
               </Stack>
             </Box>
