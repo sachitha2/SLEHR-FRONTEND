@@ -7,6 +7,9 @@ import {  Button, Container, Stack, TextField } from '@mui/material';
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
 import {patientIdAtom} from '../../App'
+import axios from '../../utils/axios';
+// config
+import { TEMP_TOKEN } from '../../config';
 
 export default function Doctor() {
   const navigate = useNavigate();
@@ -21,10 +24,24 @@ export default function Doctor() {
     setSearchVal(e.target.value)
   }
 
-  const findPerson = ()=>{
+  const findPerson = async ()=>{
     
     if(searchVal !== ""){
-      setPatientId(2)
+      // axios start
+      
+      try{
+        const response = await axios.get(`auth/getPatient/${searchVal}`);
+      console.log(response.data)
+
+      setPatientId(response.data.patientId)
+      // setPatientId(response.data)
+      // navigate('/dashboard', { replace: true });
+    }catch(e){
+      console.log(e)
+      alert(e)
+    }
+      // axios end
+      
     }
   }
 
