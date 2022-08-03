@@ -24,7 +24,7 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserMoreMenu } from '../sections/@dashboard/user';
+import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 
@@ -145,7 +145,8 @@ export default function User() {
         </Stack>
 
         <Card>
-          
+          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
