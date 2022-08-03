@@ -20,6 +20,17 @@ import Doctor1 from './pages/radiographer/Doctor';
 import Demographics1 from './pages/radiographer/Demographic';
 import Scans1 from './pages/radiographer/Scans';
 
+// pharmacist imports
+import Doctor2 from './pages/pharmacist/Doctor';
+import Demographics2 from './pages/pharmacist/Demographic';
+import Prescriptions1 from './pages/pharmacist/Prescriptions'
+
+// pathologist imports
+import Doctor3 from './pages/pathologist/Doctor';
+import Demographics3 from './pages/pathologist/Demographic';
+import LabTests1 from './pages/pathologist/LabTests';
+
+
 import User from './pages/User';
 import Login from './pages/Login';
 import PatientLogin from './pages/PatientLogin';
@@ -62,6 +73,23 @@ export default function Router() {
             { path: 'radiographer-scans', element: <Scans1 /> },
           ],
         },
+        {
+          path: 'pharmacist',
+          element: <Doctor2 />,
+          children: [
+            { path: 'pharmacist-demographic', element: <Demographics2 /> },
+            { path: 'pharmacist-prescriptions', element: <Prescriptions1 /> },
+          ],
+
+        },
+        {
+          path: 'pathologist',
+          element: <Doctor3 />,
+          children: [
+            { path: 'pathologist-demographic', element: <Demographics3 /> },
+            { path: 'pathologist-labtests', element: <LabTests1 /> },
+          ],
+        }
       ],
     },
     {
