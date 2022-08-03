@@ -1,6 +1,6 @@
 import { Link as RouterLink,Outlet } from 'react-router-dom';
 // material
-import {  Button, Container, Stack } from '@mui/material';
+import {  Button, Container, Stack, TextField } from '@mui/material';
 // components
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
@@ -9,8 +9,11 @@ export default function Doctor() {
   return (
     <Page title="Dashboard: Blog">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          
+
+        <TextField id="outlined-basic" label="Find Patient by Id" variant="outlined" />
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
+
+            
           
             <Button variant="contained" component={RouterLink} to="">
               Dashboard
