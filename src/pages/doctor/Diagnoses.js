@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 // material
@@ -28,7 +28,9 @@ import Iconify from '../../components/Iconify';
 import SearchNotFound from '../../components/SearchNotFound';
 import { UserListHead, UserMoreMenu } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
-
+import axios from '../../utils/axios';
+// config
+import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -130,6 +132,34 @@ export default function Diagnoses() {
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
+
+
+
+  // Fetch data start
+
+  useEffect(() => {
+    // dispatch(getProducts());
+    async function fetchData() {
+      try {
+        //   const response = await axios.get('/business/biz-user-add/shop/hello');
+        // const response = await axios.get('/business/item');
+        const response = await axios.get('diagnosis/2',
+        {
+          headers: {
+            Authorization: `Bearer ${TEMP_TOKEN}`
+          }
+        }
+        );
+        // setCategoryList(response.data);
+        console.log(response)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  // Fetch data end
 
   return (
     <Page title="Dashboard: Blog">
