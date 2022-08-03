@@ -182,7 +182,7 @@ export default function LabTests() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           
           <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
-          Request LabTests
+          Add LabTests
           </Button>
           <div>
           <Modal
@@ -196,16 +196,16 @@ export default function LabTests() {
 
               
               <Typography id="modal-modal-title" variant="h3" component="h2">
-                Request LabTests
+                Add LabTests
               </Typography>
               <TextField disabled fullWidth id="doctor"  variant="outlined" value="doctor id"/>
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Date
               </Typography>
               <TextField type="date" fullWidth id="date"  variant="outlined" />
-              <Typography id="modal-modal-title" variant="h5" component="h2">
+              {/* <Typography id="modal-modal-title" variant="h5" component="h2">
                 Notes
-              </Typography>
+              </Typography> */}
               {/* <InputLabel id="tag-label">Tag</InputLabel>
               <Select
                 labelId="tag-label"
@@ -219,7 +219,10 @@ export default function LabTests() {
                 <MenuItem value={30}>Tag13</MenuItem>
               </Select> */}
               {/* <TextField type="text" fullWidth id="title"  label="Title" variant="outlined" /> */}
-              <TextField type="text" multiline rows={4} fullWidth id="notes"  label="Notes" variant="outlined" />
+              {/* <TextField type="text" multiline rows={4} fullWidth id="notes"  label="Notes" variant="outlined" /> */}
+              <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
+            Select File
+          </Button>
               <Button variant="contained">Save</Button>
               </Stack>
             </Box>
