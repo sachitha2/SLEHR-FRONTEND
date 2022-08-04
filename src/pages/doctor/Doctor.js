@@ -6,7 +6,7 @@ import {  Button, Container, Stack, TextField } from '@mui/material';
 // components
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
-import {patientIdAtom} from '../../App'
+import {patientIdAtom,patientOriginalIdAtom} from '../../App'
 import axios from '../../utils/axios';
 // config
 import { TEMP_TOKEN } from '../../config';
@@ -14,6 +14,7 @@ import { TEMP_TOKEN } from '../../config';
 export default function Doctor() {
   const navigate = useNavigate();
   const [patientId,setPatientId] = useAtom(patientIdAtom);
+  const [patinetOriId,setPatientOriId] = useAtom(patientOriginalIdAtom)
   const [searchVal,setSearchVal] = useState('')
   const [clickButton,setClickedButton] = useState('')
   const find = (e)=>{
@@ -34,6 +35,7 @@ export default function Doctor() {
       console.log(response.data)
 
       setPatientId(response.data.patientId)
+      setPatientOriId(searchVal)
       // setPatientId(response.data)
       // navigate('/dashboard', { replace: true });
     }catch(e){

@@ -11,6 +11,7 @@ import { BaseOptionChartStyle } from './components/chart/BaseOptionChart';
 // ----------------------------------------------------------------------
 
 export const patientIdAtom = atom("")
+export const patientOriginalIdAtom = atom("")
 // export const patientIdAtom = atomWithStorage("user","")
 export const loginData = atom({id:''})
 

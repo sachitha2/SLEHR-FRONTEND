@@ -38,8 +38,6 @@ import SearchNotFound from '../../components/SearchNotFound';
 import { FormProvider,RHFTextField } from '../../components/hook-form';
 import { UserListHead } from '../../sections/@dashboard/user';
 import axios from '../../utils/axios';
-// config
-import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
 import {loginData,patientIdAtom} from '../../App'
 
