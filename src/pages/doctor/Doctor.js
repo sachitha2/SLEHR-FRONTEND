@@ -84,30 +84,42 @@ export default function Doctor() {
               Demographic
             </Button>
             {/* //show only for doctor */}
-            {logindata.userType !== "DOCTOR" ? '':
-            <>
-            <Button variant="contained" component={RouterLink} disabled={clickButton === "diagnoses" } to="diagnoses" onClick={()=>clickedButton('diagnoses')}>
-              Diagnoses
-            </Button>
-            <Button variant="contained" component={RouterLink} disabled={clickButton === "vaccines" } to="vaccines" onClick={()=>clickedButton('vaccines')}>
-              Vaccines
-            </Button>
-            <Button variant="contained" component={RouterLink} disabled={clickButton === "allergies" } to="allergies" onClick={()=>clickedButton('allergies')}>
-              Allergies
-            </Button>
-            </>
+            {logindata.userType === "DOCTOR" || logindata.userType === "PATIENT" ? 
+              <>
+              <Button variant="contained" component={RouterLink} disabled={clickButton === "diagnoses" } to="diagnoses" onClick={()=>clickedButton('diagnoses')}>
+                Diagnoses
+              </Button>
+              <Button variant="contained" component={RouterLink} disabled={clickButton === "vaccines" } to="vaccines" onClick={()=>clickedButton('vaccines')}>
+                Vaccines
+              </Button>
+              <Button variant="contained" component={RouterLink} disabled={clickButton === "allergies" } to="allergies" onClick={()=>clickedButton('allergies')}>
+                Allergies
+              </Button>
+              </>
+            :
+            ''
             }
 
             { 
-            logindata.userType === "DOCTOR" || logindata.userType === "PATHOLOGIST" ?
+            logindata.userType === "DOCTOR" || logindata.userType === "PATHOLOGIST" || logindata.userType === "PATIENT" ?
             <Button variant="contained" component={RouterLink} disabled={clickButton === "labtests" } to="labtests" onClick={()=>clickedButton('labtests')}>
               Lab Tests
             </Button>
             :
             null
             }
+
+          { 
+            logindata.userType === "PATHOLOGIST"  ?
+            <Button variant="contained" component={RouterLink} disabled={clickButton === "orders" } to="orders" onClick={()=>clickedButton('orders')}>
+              Orders
+            </Button>
+            :
+            null
+            }
+
             { 
-            logindata.userType === "DOCTOR" || logindata.userType === "RADIOGRAPHER" ? 
+            logindata.userType === "DOCTOR" || logindata.userType === "RADIOGRAPHER" || logindata.userType === "PATIENT" ? 
             <Button variant="contained" component={RouterLink} disabled={clickButton === "scans" } to="scans" onClick={()=>clickedButton('scans')}>
               Scans
             </Button>
@@ -116,7 +128,7 @@ export default function Doctor() {
             }
 
             { 
-            logindata.userType === "DOCTOR" || logindata.userType === "PHARMACIST" ? 
+            logindata.userType === "DOCTOR" || logindata.userType === "PHARMACIST" || logindata.userType === "PATIENT" ? 
             <Button variant="contained" component={RouterLink} disabled={clickButton === "prescriptions" } to="prescriptions" onClick={()=>clickedButton('prescriptions')}>
               Prescriptions
             </Button>

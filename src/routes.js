@@ -39,6 +39,7 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import LoginStage from './sections/auth/LoginStage';
+import Orders from './pages/doctor/Orders';
 
 // ----------------------------------------------------------------------
 
@@ -57,6 +58,7 @@ export default function Router() {
             { path: 'labtests', element: <LabTests /> },
             { path: 'prescriptions', element: <Prescriptions /> },
             { path: 'scans', element: <Scans /> },
+            { path: 'orders', element: <Orders /> },
             { path: 'vaccines', element: <Vaccines /> },
             { path: 'demographic', element: <Demographics /> },
           ],
