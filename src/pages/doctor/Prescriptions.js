@@ -254,7 +254,7 @@ const handleClose = () => setOpen(false);
     <Page title="Dashboard: Blog">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        {logindata.userType === "PATIENT" ? '':
+        {logindata.userType === "PATIENT" || logindata.userType === "PHARMACIST"  ? '':
           <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
             Add Prescriptions
           </Button>
