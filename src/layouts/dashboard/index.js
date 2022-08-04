@@ -39,7 +39,7 @@ export default function DashboardLayout() {
   const navigate = useNavigate();
 
   const loginAgain = () => {
-    navigate('/login')
+    navigate('/login_stage')
   };
   return (
     

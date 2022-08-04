@@ -38,6 +38,7 @@ import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
+import LoginStage from './sections/auth/LoginStage';
 
 // ----------------------------------------------------------------------
 
@@ -100,7 +101,8 @@ export default function Router() {
         { path: '/', element: <Navigate to="/dashboard/app" /> },
         { path: 'login', element: <Login /> },
         { path: 'patient_login', element: <PatientLogin /> },
-        { path: 'register', element: <Register /> },
+        { path: 'login_stage', element: <LoginStage/> },
+        { path: 'register', element: <Register/> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],

@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import {useAtom} from 'jotai';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink,useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -87,8 +87,8 @@ export default function LoginForm() {
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
         {/* <RHFCheckbox name="remember" label="Remember me" /> */}
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
+        <Link variant="subtitle2" underline="hover" component={RouterLink} to="/login_stage">
+          Change Role
         </Link>
       </Stack>
 
