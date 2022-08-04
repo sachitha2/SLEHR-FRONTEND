@@ -63,31 +63,7 @@ export default function Router() {
         },
         // { path: 'demographic', element: <Demographics /> },
         { path: 'scheduling', element: <Scheduling /> },
-        {
-          path: 'radiographer',
-          element: <Doctor1 />,
-          children: [
-            { path: 'radiographer-demographic', element: <Demographics1 /> },
-            { path: 'radiographer-scans', element: <Scans1 /> },
-          ],
-        },
-        {
-          path: 'pharmacist',
-          element: <Doctor2 />,
-          children: [
-            { path: 'pharmacist-demographic', element: <Demographics2 /> },
-            { path: 'pharmacist-prescriptions', element: <Prescriptions1 /> },
-          ],
-
-        },
-        {
-          path: 'pathologist',
-          element: <Doctor3 />,
-          children: [
-            { path: 'pathologist-demographic', element: <Demographics3 /> },
-            { path: 'pathologist-labtests', element: <LabTests1 /> },
-          ],
-        }
+        
       ],
     },
     {
