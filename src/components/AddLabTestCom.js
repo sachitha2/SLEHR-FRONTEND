@@ -26,16 +26,17 @@ export default function AddLabTestCom() {
 
     const [logindata,setLoginData] = useAtom(loginData);
     const [patientId,setPatientId] = useAtom(patientIdAtom);
+    
 
 // form start
 const LoginSchema = Yup.object().shape({
     date: Yup.string().required('Date is required'),
-    note: Yup.string().required('Note is required'),
+    fileLocation: Yup.string().required('fileLocation is required'),
   });
 
   const defaultValues = {
     date: '',
-    note: '',
+    fileLocation: '',
     doctor: logindata.id,
     remember: true,
   };
@@ -53,9 +54,9 @@ const LoginSchema = Yup.object().shape({
     // TODO axios here
     console.log(logindata.id)
     try{
-        const response = await axios.post('labtest/request',{
+        const response = await axios.post('labtest',{
           date:values.date, 
-          note:values.note, 
+          fileLocation:values.fileLocation, 
           doctor:logindata.id, 
           patient:patientId
       },{
@@ -64,6 +65,7 @@ const LoginSchema = Yup.object().shape({
         }
       });
       console.log(response.data)
+      
       // setPatientId(response.data)
       // navigate('/dashboard', { replace: true });
     }catch(e){
