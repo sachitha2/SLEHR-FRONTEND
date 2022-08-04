@@ -238,10 +238,13 @@ const handleClose = () => setOpen(false);
     <Page title="Dashboard: Blog">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          
+        {
+          logindata.userType === "PATIENT" ? '':
           <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
           Request LabTests
           </Button>
+        }
+
           <div>
           <Modal
             open={open}
