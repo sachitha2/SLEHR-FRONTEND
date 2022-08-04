@@ -11,7 +11,7 @@ import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
-import {loginData} from '../../../App'
+import {loginData,patientOriginalIdAtom} from '../../../App'
 import axios from '../../../utils/axios';
 // ----------------------------------------------------------------------
 
@@ -41,9 +41,11 @@ export default function LoginForm() {
     formState: { isSubmitting },
   } = methods;
   const [logindata,setLoginData] = useAtom(loginData);
+  const [patinetOriId,setPatientOriId] = useAtom(patientOriginalIdAtom)
   const onSubmit = async (values) => {
     // TODO axios here
     console.log(values)
+
     try{
         const response = await axios.post('auth/patientlogin',{
         patientNumber: values.patientNumber,
@@ -52,9 +54,11 @@ export default function LoginForm() {
       
       console.log(response.data)
       setLoginData(response.data)
+      setPatientOriId(values.patientNumber)
       navigate('/dashboard', { replace: true });
     }catch(e){
       console.log(e)
+      setPatientOriId("")
       alert(e)
     }
     navigate('/dashboard', { replace: true });

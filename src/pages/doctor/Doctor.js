@@ -6,7 +6,7 @@ import {  Button, Container, Stack, TextField } from '@mui/material';
 // components
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
-import {patientIdAtom,patientOriginalIdAtom} from '../../App'
+import {patientIdAtom,patientOriginalIdAtom,loginData} from '../../App'
 import axios from '../../utils/axios';
 // config
 import { TEMP_TOKEN } from '../../config';
@@ -14,6 +14,7 @@ import { TEMP_TOKEN } from '../../config';
 export default function Doctor() {
   const navigate = useNavigate();
   const [patientId,setPatientId] = useAtom(patientIdAtom);
+  const [logindata,setLogindata] = useAtom(loginData);
   const [patinetOriId,setPatientOriId] = useAtom(patientOriginalIdAtom)
   const [searchVal,setSearchVal] = useState('')
   const [clickButton,setClickedButton] = useState('')
@@ -24,6 +25,16 @@ export default function Doctor() {
     }
     setSearchVal(e.target.value)
   }
+
+  useEffect(() => {
+    
+      if(logindata?.userType === 'PATIENT'){
+        setPatientId(11)
+        // setPatientOriId(2)
+      }
+      
+    
+  }, [logindata]);
 
   const findPerson = async ()=>{
     setPatientId("")
@@ -55,11 +66,12 @@ export default function Doctor() {
   return (
     <Page title="Dashboard: Blog">
       <Container>
-        
-        <Stack direction="row" space={2}>
+        {logindata.userType === "PATIENT" ? '':
+          <Stack direction="row" space={2}>
           <TextField id="outlined-basic" label="Find Patient by Id" variant="outlined" onChange={find} />
           <Button variant="contained" onClick={findPerson}>Find</Button>
         </Stack>
+        }
         {
           patientId === "" ? null : 
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
