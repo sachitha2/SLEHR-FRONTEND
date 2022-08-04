@@ -164,7 +164,7 @@ const handleClose = () => setOpen(false);
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(`scan/request/${patientId}`,
+        const response = await axios.get(`scan/${patientId}`,
         {
           headers: {
             Authorization: `Bearer ${logindata.token}`

@@ -72,7 +72,7 @@ export default function Router() {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <Navigate to="/dashboard/app" /> },
+        { path: '/', element: <Navigate to="/dashboard/doctor" /> },
         { path: 'login', element: <Login /> },
         { path: 'patient_login', element: <PatientLogin /> },
         { path: 'login_stage', element: <LoginStage/> },

@@ -164,7 +164,7 @@ const handleClose = () => setOpen(false);
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(`labtest/request/${patientId}`,
+        const response = await axios.get(`labtest/${patientId}`,
         {
           headers: {
             Authorization: `Bearer ${logindata.token}`
@@ -239,10 +239,19 @@ const handleClose = () => setOpen(false);
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         {
-          logindata.userType === "PATIENT" ? '':
+          logindata.userType === "PATIENT" || logindata.userType === "PATHOLOGIST"  ? '':
           <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
           Request LabTests
           </Button>
+        }
+
+        {
+          logindata.userType === "PATHOLOGIST"  ? 
+          <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
+            Add Lab Report
+          </Button>
+          :
+          ''
         }
 
           <div>
@@ -253,10 +262,30 @@ const handleClose = () => setOpen(false);
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+              {logindata.userType === "PATHOLOGIST" ? 
+                <>
+                 <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={1}>
+              <Typography id="modal-modal-title" variant="h3" component="h2">
+                Add Lab Test
+              </Typography>
+              <RHFTextField disabled fullWidth name="doctor"  variant="outlined"/>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Date
+              </Typography>
+              <RHFTextField type="date" fullWidth name="date"  variant="outlined" />
 
-              
+              <Typography id="modal-modal-title" variant="h3" component="h2">
+                Lab Test file url
+              </Typography>
+              <RHFTextField type="text" multiline rows={4} fullWidth name="fileLocation"  label="File url" variant="outlined" />
+              <Button variant="contained" type="submit">Save</Button>
+              </Stack>
+              </FormProvider>
+                </>
+                :
+                <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+              <Stack spacing={1}>
               <Typography id="modal-modal-title" variant="h3" component="h2">
                 Request LabTests
               </Typography>
@@ -268,23 +297,10 @@ const handleClose = () => setOpen(false);
               <Typography id="modal-modal-title" variant="h5" component="h2">
                 Notes
               </Typography>
-              {/* <InputLabel id="tag-label">Tag</InputLabel>
-              <Select
-                labelId="tag-label"
-                id="tag-select"
-                value={tag}
-                label="Tag"
-                onChange={handleChange}
-              >
-                <MenuItem value={10}>Tag1</MenuItem>
-                <MenuItem value={20}>Tag2</MenuItem>
-                <MenuItem value={30}>Tag13</MenuItem>
-              </Select> */}
-              {/* <RHFTextField type="text" fullWidth id="title"  label="Title" variant="outlined" /> */}
               <RHFTextField type="text" multiline rows={4} fullWidth name="note"  label="Notes" variant="outlined" />
               <Button variant="contained" type="submit">Save</Button>
               </Stack>
-              </FormProvider>
+              </FormProvider>}
             </Box>
           </Modal>
     </div>
