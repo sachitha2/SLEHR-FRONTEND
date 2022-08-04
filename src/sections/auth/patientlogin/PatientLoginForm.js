@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import {useAtom} from 'jotai';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // form
@@ -10,6 +11,8 @@ import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
+import {loginData} from '../../../App'
+import axios from '../../../utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -24,8 +27,8 @@ export default function LoginForm() {
   });
 
   const defaultValues = {
-    email: '',
-    password: '',
+    email: 'dd@g.com',
+    password: 'patient123',
     remember: true,
   };
 
@@ -38,9 +41,25 @@ export default function LoginForm() {
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
-
-  const onSubmit = async () => {
-    navigate('/dashboard', { replace: true });
+  const [patientId,setPatientId] = useAtom(loginData);
+  const [navId, setNavId] = useState("");
+  const onSubmit = async (values) => {
+    // TODO axios here
+    console.log(values)
+    try{
+        const response = await axios.post('auth/login',{
+        email: values.email,
+        password: values.password
+      });
+      
+      console.log(response.data)
+      setPatientId(response.data)
+      // const test = localStorage.getItem('Doctor');
+      navigate(`/dashboard/`, { replace: true });
+    }catch(e){
+      console.log(e)
+      alert(e)
+    }
   };
 
   return (

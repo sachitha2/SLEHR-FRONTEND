@@ -30,6 +30,9 @@ export default function Doctor() {
             <Button variant="contained" component={RouterLink} to="attendant-scheduling">
               Scheduling
             </Button>
+            <Button variant="contained" component={RouterLink} to="attendant-patient-register">
+              New Patient
+            </Button>
         </Stack>
       </Container>
       <Outlet />

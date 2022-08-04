@@ -33,6 +33,9 @@ import LabTests1 from './pages/pathologist/LabTests';
 
 // attendant imports 
 import Doctor4 from './pages/attendant/Doctor';
+import Demographics4 from './pages/attendant/Demographic';
+
+// patient imports
 
 
 import User from './pages/User';
@@ -66,6 +69,7 @@ export default function Router() {
             { path: 'prescriptions', element: <Prescriptions /> },
             { path: 'scans', element: <Scans /> },
             { path: 'vaccines', element: <Vaccines /> },
+            { path: 'demographic', element: <Demographics /> },
           ],
         },
         { path: 'demographic', element: <Demographics /> },
@@ -102,10 +106,12 @@ export default function Router() {
             { path: 'attendant-demographic', element: <Demographics1 /> },
             { path: 'attendant-dashboard', element: <Dashboard /> },
             { path: 'attendant-scheduling', element: <Scheduling /> },
+            { path: 'attendant-patient-register', element: <Demographics4 /> },
           ],
         }
       ],
     },
+
     {
       path: '/',
       element: <LogoOnlyLayout />,

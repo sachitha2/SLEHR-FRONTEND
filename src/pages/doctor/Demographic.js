@@ -1,6 +1,7 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import React, { useState } from 'react';
+import {useAtom} from 'jotai';
+import React, { useState,useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
@@ -20,8 +21,51 @@ import {
   Grid,
   TextField,
 } from '@mui/material';
+import axios from '../../utils/axios';
+// ----------------------------------------------------------------------
+import {loginData,patientIdAtom,patientOriginalIdAtom} from '../../App'
 
 export default function User() {
+  const [logindata,setLoginData] = useAtom(loginData);
+  const [patientId,setPatientId] = useAtom(patientIdAtom);
+  const [patinetOriId,setPatientOriId] = useAtom(patientOriginalIdAtom)
+  const [dataRes,setDataRes] = useState({
+    nic:'',
+    dob:'',
+    firstName:'',
+    middleName:'',
+    lastName:'',
+    gender:'',
+    occupation:'',
+    martialStatus:'',
+    childrenCount:'',
+    religion:'',
+    nationality:'',
+    race:'',
+    languages:'',
+    address:'',
+    contactNo:'',
+    secondaryContactNo:'',
+    email:''
+  });
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(`auth/getPatient/${patinetOriId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${logindata.token}`
+          }
+        }
+        );
+        setDataRes(response.data)
+        console.log(response.data)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
   return (
     <>
       <Grid container spacing={3}>
@@ -31,25 +75,23 @@ export default function User() {
           </Typography>
           <TextField
             disabled
-            required
             id="phid"
+            value={patientId}
             name="phid"
             label="PHID"
             fullWidth
-            autoComplete="given-name"
             variant="standard"
           />
           <TextField
             disabled
-            required
             id="nic"
             name="nic"
             label="NIC"
+            value={dataRes?.nic}
             fullWidth
-            autoComplete="given-name"
             variant="standard"
           />
-          <TextField disabled type="date" fullWidth id="date" variant="standard" />
+          <TextField disabled label="DOB" value={dataRes?.dob} type="date" fullWidth id="date" variant="standard" />
           <TextField
             disabled
             required
@@ -62,12 +104,11 @@ export default function User() {
           />
           <TextField
             disabled
-            required
             id="firstname"
             name="firstname"
             label="First Name"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.firstName}
             variant="standard"
           />
           <TextField
@@ -77,7 +118,7 @@ export default function User() {
             name="middlename"
             label="Middle Name"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.middleName}
             variant="standard"
           />
           <TextField
@@ -87,7 +128,7 @@ export default function User() {
             name="lastname"
             label="Last name"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.lastName}
             variant="standard"
           />
           <TextField
@@ -97,7 +138,7 @@ export default function User() {
             name="gender"
             label="Gender"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.gender}
             variant="standard"
           />
           <TextField
@@ -107,7 +148,7 @@ export default function User() {
             name="occupation"
             label="Occupation"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.occupation}
             variant="standard"
           />
           <TextField
@@ -117,7 +158,7 @@ export default function User() {
             name="maritalstatus"
             label="Marital Status"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.martialStatus}
             variant="standard"
           />
           <TextField
@@ -127,7 +168,7 @@ export default function User() {
             name="children"
             label="Children"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.childrenCount}
             variant="standard"
           />
           <TextField
@@ -137,7 +178,7 @@ export default function User() {
             name="religion"
             label="Religion"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.religion}
             variant="standard"
           />
           <TextField
@@ -147,7 +188,7 @@ export default function User() {
             name="nationality"
             label="Nationality"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.nationality}
             variant="standard"
           />
           <TextField
@@ -157,7 +198,7 @@ export default function User() {
             name="race"
             label="Race"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.race}
             variant="standard"
           />
           <TextField
@@ -167,7 +208,7 @@ export default function User() {
             name="languages"
             label="Languages"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.languages}
             variant="standard"
           />
         </Grid>
@@ -178,6 +219,7 @@ export default function User() {
           <TextField
             disabled
             type="text"
+            value={dataRes?.address}
             multiline
             rows={3}
             fullWidth
@@ -193,7 +235,7 @@ export default function User() {
             name="phone"
             label="Phone"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.contactNo}
             variant="standard"
           />
           <TextField
@@ -203,7 +245,7 @@ export default function User() {
             name="phone2"
             label="Phone2"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.secondaryContactNo}
             variant="standard"
           />
           <TextField
@@ -213,7 +255,7 @@ export default function User() {
             name="email"
             label="Email"
             fullWidth
-            autoComplete="given-name"
+            value={dataRes?.email}
             variant="standard"
           />
         </Grid>

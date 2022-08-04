@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import {useAtom} from 'jotai';
 import { filter } from 'lodash';
 import { useState,useEffect } from 'react';
 // material
@@ -23,6 +24,14 @@ import {
   Select,
   MenuItem
 } from '@mui/material';
+
+// form
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { FormProvider,RHFTextField } from '../../components/hook-form';
+// form end
+
 import Scrollbar from '../../components/Scrollbar';
 // components
 import Page from '../../components/Page';
@@ -34,6 +43,8 @@ import axios from '../../utils/axios';
 // config
 import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
+import {loginData,patientIdAtom} from '../../App'
+
 
 const TABLE_HEAD = [
   { id: 'date', label: 'Date', alignRight: false },
@@ -87,6 +98,8 @@ const style = {
 };
 
 export default function Diagnoses() {
+  const [logindata,setLoginData] = useAtom(loginData);
+  const [patientId,setPatientId] = useAtom(patientIdAtom);
 
   const [page, setPage] = useState(0);
   const [diagnosisList,setDiagnosisList] = useState([{id:1,avatarUrl:`/static/mock-images/avatars/avatar_${1}.jpg`,name:'sachitha hirushan',company:'company',isVerified:false}]);
@@ -148,17 +161,20 @@ export default function Diagnoses() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
-
+  // Modal 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   // Fetch data start
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('diagnosis/2',
+        const response = await axios.get(`diagnosis/${patientId}`,
         {
           headers: {
-            Authorization: `Bearer ${TEMP_TOKEN}`
+            Authorization: `Bearer ${logindata.token}`
           }
         }
         );
@@ -169,19 +185,65 @@ export default function Diagnoses() {
       }
     }
     fetchData();
-  }, []);
+  }, [open]);
   const [tag, setTag] = useState('');
 
   const handleChange = (event) => {
     setTag(event.target.value);
   };
   // Fetch data end
-  // Modal 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   
+
+  // form start
+  const LoginSchema = Yup.object().shape({
+    description: Yup.string().required('Description is required'),
+    date: Yup.string().required('Date is required'),
+    title: Yup.string().required('Title is required'),
+    doctor: Yup.string().required('Doctor id is required'),
+  });
+
+  const defaultValues = {
+    description: '',
+    date: '',
+    title: '',
+    doctor: logindata.id,
+    remember: true,
+  };
+  const methods = useForm({
+    resolver: yupResolver(LoginSchema),
+    defaultValues,
+  });
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
+  // const [patientId,setPatientId] = useAtom(loginData);
+  const onSubmit = async (values) => {
+    // TODO axios here
+    console.log(logindata.id)
+    try{
+        const response = await axios.post('diagnosis',{
+          tag:"Severe", 
+          date:values.date, 
+          description:values.description, 
+          title:values.title, 
+          doctor:logindata.id, 
+          patient:patientId
+      },{
+        headers: {
+          Authorization: `Bearer ${logindata.token}`
+        }
+      });
+      setOpen(false)
+      console.log(response.data)
+      // setPatientId(response.data)
+      // navigate('/dashboard', { replace: true });
+    }catch(e){
+      console.log(e)
+      alert(e)
+    }
+  };
+  // form end
   return (
     <Page title="Dashboard: Blog">
       <Container>
@@ -198,24 +260,26 @@ export default function Diagnoses() {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
+
+            <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={1}>
 
               
               <Typography id="modal-modal-title" variant="h3" component="h2">
                 Add Diagnosis
               </Typography>
-              <TextField disabled fullWidth id="doctor"  variant="outlined" value="doctor id"/>
+              <RHFTextField disabled fullWidth name="doctor"  variant="outlined"/>
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Date
               </Typography>
-              <TextField type="date" fullWidth id="date"  variant="outlined" />
+              <RHFTextField type="date" fullWidth name="date"  variant="outlined" />
               <Typography id="modal-modal-title" variant="h5" component="h2">
                 Diagnosis Details
               </Typography>
-              <InputLabel id="tag-label">Tag</InputLabel>
-              <Select
+              {/* <InputLabel id="tag-label">Tag</InputLabel> */}
+              {/* <Select
                 labelId="tag-label"
-                id="tag-select"
+                name="tag-select"
                 value={tag}
                 label="Tag"
                 onChange={handleChange}
@@ -223,11 +287,12 @@ export default function Diagnoses() {
                 <MenuItem value={10}>Tag1</MenuItem>
                 <MenuItem value={20}>Tag2</MenuItem>
                 <MenuItem value={30}>Tag13</MenuItem>
-              </Select>
-              <TextField type="text" fullWidth id="title"  label="Title" variant="outlined" />
-              <TextField type="text" multiline rows={4} fullWidth id="description"  label="Description" variant="outlined" />
-              <Button variant="contained">Save</Button>
+              </Select> */}
+              <RHFTextField type="text" fullWidth name="title"  label="Title" variant="outlined" />
+              <RHFTextField type="text" multiline rows={4} fullWidth name="description"  label="Description" variant="outlined" />
+              <Button type='submit' variant="contained">Save</Button>
               </Stack>
+              </FormProvider>
             </Box>
           </Modal>
     </div>

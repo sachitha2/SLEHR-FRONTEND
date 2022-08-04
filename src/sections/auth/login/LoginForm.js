@@ -12,7 +12,6 @@ import { LoadingButton } from '@mui/lab';
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
 // eslint-disable-next-line import/named
-import { DoctorSort } from "../../@dashboard/products";
 import {loginData} from '../../../App'
 import axios from '../../../utils/axios';
 // ----------------------------------------------------------------------
@@ -23,13 +22,15 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
+    // phid: Yup.string().required('PHID is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    email: '',
-    password: '',
+    // phid: '',
+    email: 'dd@g.com',
+    password: 'patient123',
     remember: true,
   };
 
@@ -42,7 +43,7 @@ export default function LoginForm() {
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
-  const [patientId,setPatientId] = useAtom(loginData);
+  const [doctorId,setDoctorId] = useAtom(loginData);
   const [navId, setNavId] = useState("");
   const onSubmit = async (values) => {
     // TODO axios here
@@ -54,21 +55,19 @@ export default function LoginForm() {
       });
       
       console.log(response.data)
-      setPatientId(response.data)
+      setDoctorId(response.data)
       const test = localStorage.getItem('Doctor');
       navigate(`/dashboard/${test}`, { replace: true });
     }catch(e){
       console.log(e)
       alert(e)
     }
-
-    
-    
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
+        {/* <RHFTextField name="phid" label="PHID" /> */}
         <RHFTextField name="email" label="Email address" />
 
         <RHFTextField
@@ -85,7 +84,7 @@ export default function LoginForm() {
             ),
           }}
         />
-        <DoctorSort/>
+        
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
