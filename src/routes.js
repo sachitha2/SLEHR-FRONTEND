@@ -41,6 +41,7 @@ import DashboardApp from './pages/DashboardApp';
 import LoginStage from './sections/auth/LoginStage';
 import Orders from './pages/doctor/Orders';
 import Referrals from './pages/doctor/Referrals';
+import AddPatient from './pages/AddPatient';
 
 // ----------------------------------------------------------------------
 
@@ -66,7 +67,7 @@ export default function Router() {
           ],
         },
         // { path: 'demographic', element: <Demographics /> },
-        { path: 'scheduling', element: <Scheduling /> },
+        { path: 'addPatient', element: <AddPatient /> },
         
       ],
     },

@@ -151,7 +151,7 @@ export default function NavSection({ navConfig, ...other }) {
           
           <NavItem key={item.title} item={item} active={match} />
         ))}
-        <NavItem key={"pr"} item={{title:"hello",path: '/dashboard/addPatient',icon: getIcon('eva:people-fill')}} active={match} />
+        <NavItem key={"Add Patient"} item={{title:"Add Patient",path: '/dashboard/addPatient',icon: getIcon('eva:people-fill')}} active={match} />
       
       </List>
     </Box>
