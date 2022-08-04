@@ -143,13 +143,16 @@ export default function NavSection({ navConfig, ...other }) {
   const { pathname } = useLocation();
 
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
-
+  const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
         {navConfig.map((item) => (
+          
           <NavItem key={item.title} item={item} active={match} />
         ))}
+        <NavItem key={"pr"} item={{title:"hello",path: '/dashboard/addPatient',icon: getIcon('eva:people-fill')}} active={match} />
+      
       </List>
     </Box>
   );
