@@ -118,6 +118,16 @@ export default function Doctor() {
             null
             }
 
+
+{ 
+            logindata.userType === "RADIOGRAPHER"  ?
+            <Button variant="contained" component={RouterLink} disabled={clickButton === "referrals" } to="referrals" onClick={()=>clickedButton('referrals')}>
+              Referrals
+            </Button>
+            :
+            null
+            }
+
             { 
             logindata.userType === "DOCTOR" || logindata.userType === "RADIOGRAPHER" || logindata.userType === "PATIENT" ? 
             <Button variant="contained" component={RouterLink} disabled={clickButton === "scans" } to="scans" onClick={()=>clickedButton('scans')}>

@@ -40,6 +40,7 @@ import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import LoginStage from './sections/auth/LoginStage';
 import Orders from './pages/doctor/Orders';
+import Referrals from './pages/doctor/Referrals';
 
 // ----------------------------------------------------------------------
 
@@ -60,6 +61,7 @@ export default function Router() {
             { path: 'scans', element: <Scans /> },
             { path: 'orders', element: <Orders /> },
             { path: 'vaccines', element: <Vaccines /> },
+            { path: 'referrals', element: <Referrals /> },
             { path: 'demographic', element: <Demographics /> },
           ],
         },
