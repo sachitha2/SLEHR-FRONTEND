@@ -1,3 +1,4 @@
+import * as Yup from 'yup';
 import { filter } from 'lodash';
 import { useState,useEffect } from 'react';
 import {useAtom} from 'jotai';
@@ -18,11 +19,15 @@ import {
   TablePagination,
   Modal,
   Box,
-  TextField,
   InputLabel,
   Select,
   MenuItem
 } from '@mui/material';
+// form
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { FormProvider,RHFTextField } from '../../components/hook-form';
 import Scrollbar from '../../components/Scrollbar';
 // components
 import Page from '../../components/Page';
@@ -150,13 +155,16 @@ export default function Scans() {
   const isUserNotFound = filteredUsers.length === 0;
 
 
-
+// Modal 
+const [open, setOpen] = useState(false);
+const handleOpen = () => setOpen(true);
+const handleClose = () => setOpen(false);
   // Fetch data start
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(`scan/${patientId}`,
+        const response = await axios.get(`scan/request/${patientId}`,
         {
           headers: {
             Authorization: `Bearer ${logindata.token}`
@@ -170,17 +178,60 @@ export default function Scans() {
       }
     }
     fetchData();
-  }, []);
+  }, [open]);
   const [tag, setTag] = useState('');
 
   const handleChange = (event) => {
     setTag(event.target.value);
   };
   // Fetch data end
-  // Modal 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  
+  // form start
+  const LoginSchema = Yup.object().shape({
+    date: Yup.string().required('Date is required'),
+    note: Yup.string().required('Note is required'),
+  });
+
+  const defaultValues = {
+    date: '',
+    note: '',
+    doctor: logindata.id,
+    remember: true,
+  };
+  const methods = useForm({
+    resolver: yupResolver(LoginSchema),
+    defaultValues,
+  });
+
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
+  // const [patientId,setPatientId] = useAtom(loginData);
+  const onSubmit = async (values) => {
+    // TODO axios here
+    console.log(logindata.id)
+    try{
+        const response = await axios.post('scan/request',{
+          note:values.note, 
+          date:values.date, 
+          doctor:logindata.id, 
+          patient:patientId
+      },{
+        headers: {
+          Authorization: `Bearer ${logindata.token}`
+        }
+      });
+      setOpen(false)
+      console.log(response.data)
+      // setPatientId(response.data)
+      // navigate('/dashboard', { replace: true });
+    }catch(e){
+      console.log(e)
+      alert(e)
+    }
+  };
+  // form end
   return (
     <Page title="Dashboard: Blog">
       <Container>
@@ -197,17 +248,18 @@ export default function Scans() {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
+            <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={1}>
 
               
               <Typography id="modal-modal-title" variant="h3" component="h2">
                 Request Scan
               </Typography>
-              <TextField disabled fullWidth id="doctor"  variant="outlined" value="doctor id"/>
+              <RHFTextField disabled fullWidth name="doctor"  variant="outlined"/>
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Date
               </Typography>
-              <TextField type="date" fullWidth id="date"  variant="outlined" />
+              <RHFTextField type="date" fullWidth name="date"  variant="outlined" />
               <Typography id="modal-modal-title" variant="h5" component="h2">
                 Scans Details
               </Typography>
@@ -223,10 +275,11 @@ export default function Scans() {
                 <MenuItem value={20}>Tag2</MenuItem>
                 <MenuItem value={30}>Tag13</MenuItem>
               </Select> */}
-              {/* <TextField type="text" fullWidth id="title"  label="Title" variant="outlined" /> */}
-              <TextField type="text" multiline rows={4} fullWidth id="notes"  label="Notes" variant="outlined" />
-              <Button variant="contained">Save</Button>
+              {/* <RHFTextField type="text" fullWidth id="title"  label="Title" variant="outlined" /> */}
+              <RHFTextField type="text" multiline rows={4} fullWidth name="note"  label="Notes" variant="outlined" />
+              <Button variant="contained" type="submit">Save</Button>
               </Stack>
+              </FormProvider>
             </Box>
           </Modal>
     </div>
