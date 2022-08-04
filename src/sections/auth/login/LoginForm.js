@@ -55,7 +55,7 @@ export default function LoginForm() {
       
       console.log(response.data)
       setLoginData(response.data)
-      navigate('/dashboard', { replace: true });
+      navigate('/dashboard/doctor', { replace: true });
     }catch(e){
       console.log(e)
       alert(e)

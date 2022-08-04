@@ -39,6 +39,8 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import LoginStage from './sections/auth/LoginStage';
+import Orders from './pages/doctor/Orders';
+import Referrals from './pages/doctor/Referrals';
 
 // ----------------------------------------------------------------------
 
@@ -48,10 +50,6 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { path: 'app', element: <DashboardApp /> },
-        { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> },
         {
           path: 'doctor',
           element: <Doctor />,
@@ -61,44 +59,22 @@ export default function Router() {
             { path: 'labtests', element: <LabTests /> },
             { path: 'prescriptions', element: <Prescriptions /> },
             { path: 'scans', element: <Scans /> },
+            { path: 'orders', element: <Orders /> },
             { path: 'vaccines', element: <Vaccines /> },
+            { path: 'referrals', element: <Referrals /> },
             { path: 'demographic', element: <Demographics /> },
           ],
         },
         // { path: 'demographic', element: <Demographics /> },
         { path: 'scheduling', element: <Scheduling /> },
-        {
-          path: 'radiographer',
-          element: <Doctor1 />,
-          children: [
-            { path: 'radiographer-demographic', element: <Demographics1 /> },
-            { path: 'radiographer-scans', element: <Scans1 /> },
-          ],
-        },
-        {
-          path: 'pharmacist',
-          element: <Doctor2 />,
-          children: [
-            { path: 'pharmacist-demographic', element: <Demographics2 /> },
-            { path: 'pharmacist-prescriptions', element: <Prescriptions1 /> },
-          ],
-
-        },
-        {
-          path: 'pathologist',
-          element: <Doctor3 />,
-          children: [
-            { path: 'pathologist-demographic', element: <Demographics3 /> },
-            { path: 'pathologist-labtests', element: <LabTests1 /> },
-          ],
-        }
+        
       ],
     },
     {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <Navigate to="/dashboard/app" /> },
+        { path: '/', element: <Navigate to="/dashboard/doctor" /> },
         { path: 'login', element: <Login /> },
         { path: 'patient_login', element: <PatientLogin /> },
         { path: 'login_stage', element: <LoginStage/> },

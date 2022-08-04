@@ -25,6 +25,7 @@ import {
 } from '@mui/material';
 
 // form
+
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider,RHFTextField } from '../../components/hook-form';
@@ -40,11 +41,10 @@ import axios from '../../utils/axios';
 import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
 import {loginData,patientIdAtom} from '../../App'
-import AddLabTestCom from '../../components/AddLabTestCom';
 
 const TABLE_HEAD = [
   { id: 'date', label: 'Date', alignRight: false },
-  { id: 'viewReports', label: 'View Reports', alignRight: false },
+  { id: 'note', label: 'Note', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -90,7 +90,7 @@ const style = {
   p: 4,
 };
 
-export default function LabTests() {
+export default function Orders() {
   const [logindata,setLoginData] = useAtom(loginData);
   const [patientId,setPatientId] = useAtom(patientIdAtom);
 
@@ -164,7 +164,7 @@ const handleClose = () => setOpen(false);
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(`labtest/${patientId}`,
+        const response = await axios.get(`labtest/request/${patientId}`,
         {
           headers: {
             Authorization: `Bearer ${logindata.token}`
@@ -238,21 +238,7 @@ const handleClose = () => setOpen(false);
     <Page title="Dashboard: Blog">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        {
-          logindata.userType === "PATIENT" || logindata.userType === "PATHOLOGIST"  ? '':
-          <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
-          Request LabTests
-          </Button>
-        }
-
-        {
-          logindata.userType === "PATHOLOGIST"  ? 
-          <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
-            Add Lab Report
-          </Button>
-          :
-          ''
-        }
+        
 
           <div>
           <Modal
@@ -262,13 +248,10 @@ const handleClose = () => setOpen(false);
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              {logindata.userType === "PATHOLOGIST" ? 
-                
-                <AddLabTestCom/>
-                 
-                :
-                <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+              <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={1}>
+
+              
               <Typography id="modal-modal-title" variant="h3" component="h2">
                 Request LabTests
               </Typography>
@@ -280,10 +263,23 @@ const handleClose = () => setOpen(false);
               <Typography id="modal-modal-title" variant="h5" component="h2">
                 Notes
               </Typography>
+              {/* <InputLabel id="tag-label">Tag</InputLabel>
+              <Select
+                labelId="tag-label"
+                id="tag-select"
+                value={tag}
+                label="Tag"
+                onChange={handleChange}
+              >
+                <MenuItem value={10}>Tag1</MenuItem>
+                <MenuItem value={20}>Tag2</MenuItem>
+                <MenuItem value={30}>Tag13</MenuItem>
+              </Select> */}
+              {/* <RHFTextField type="text" fullWidth id="title"  label="Title" variant="outlined" /> */}
               <RHFTextField type="text" multiline rows={4} fullWidth name="note"  label="Notes" variant="outlined" />
               <Button variant="contained" type="submit">Save</Button>
               </Stack>
-              </FormProvider>}
+              </FormProvider>
             </Box>
           </Modal>
     </div>
@@ -306,7 +302,7 @@ const handleClose = () => setOpen(false);
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name,date,fileLocation } = row;
+                    const { id, name,date,note } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -328,7 +324,7 @@ const handleClose = () => setOpen(false);
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{fileLocation}</TableCell>
+                        <TableCell align="left">{note}</TableCell>
                       </TableRow>
                     );
                   })}

@@ -55,13 +55,13 @@ export default function LoginForm() {
       console.log(response.data)
       setLoginData(response.data)
       setPatientOriId(values.patientNumber)
-      navigate('/dashboard', { replace: true });
+      navigate('/dashboard/doctor', { replace: true });
     }catch(e){
       console.log(e)
       setPatientOriId("")
       alert(e)
     }
-    navigate('/dashboard', { replace: true });
+    // navigate('/dashboard/doctor', { replace: true });
   };
 
   return (

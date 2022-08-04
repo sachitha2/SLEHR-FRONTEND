@@ -40,6 +40,7 @@ import axios from '../../utils/axios';
 import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
 import {loginData,patientIdAtom} from '../../App'
+import AddScanCom from '../../components/AddScanCom';
 
 
 const TABLE_HEAD = [
@@ -164,7 +165,7 @@ const handleClose = () => setOpen(false);
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(`scan/request/${patientId}`,
+        const response = await axios.get(`scan/${patientId}`,
         {
           headers: {
             Authorization: `Bearer ${logindata.token}`
@@ -236,10 +237,18 @@ const handleClose = () => setOpen(false);
     <Page title="Dashboard: Blog">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        {logindata.userType === "PATIENT" ? '':
+        {logindata.userType === "PATIENT" || logindata.userType === "RADIOGRAPHER" ? '':
           <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
             Request Scan
           </Button>
+          }
+
+          { logindata.userType === "RADIOGRAPHER" ? 
+          <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
+            Add Scan
+          </Button>
+          :
+          ''
           }
           <div>
           <Modal
@@ -249,6 +258,10 @@ const handleClose = () => setOpen(false);
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
+              {
+                logindata.userType === "RADIOGRAPHER" ?
+                <AddScanCom/>
+              :
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={1}>
 
@@ -281,6 +294,7 @@ const handleClose = () => setOpen(false);
               <Button variant="contained" type="submit">Save</Button>
               </Stack>
               </FormProvider>
+              }
             </Box>
           </Modal>
     </div>
