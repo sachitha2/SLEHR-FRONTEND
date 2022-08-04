@@ -241,10 +241,11 @@ export default function Vaccines() {
     <Page title="Dashboard: Blog">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          
+        {logindata.userType === "PATIENT" ? '':
           <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
             Add Vaccines
           </Button>
+        }
           <div>
           <Modal
             open={open}

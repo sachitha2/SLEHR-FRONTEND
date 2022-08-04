@@ -242,10 +242,11 @@ export default function Allergies() {
     <Page title="Dashboard: Blog">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          
+        {logindata.userType === "PATIENT" ? '':
           <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
             Add Allergies
           </Button>
+          }
           <div>
           
           <Modal
