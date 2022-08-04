@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import {useAtom} from 'jotai';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // form
@@ -11,8 +12,8 @@ import { LoadingButton } from '@mui/lab';
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
 // eslint-disable-next-line import/named
-import { DoctorSort } from "../../@dashboard/products";
-
+import {loginData} from '../../../App'
+import axios from '../../../utils/axios';
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
@@ -21,15 +22,15 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    phid: Yup.string().required('PHID is required'),
+    // phid: Yup.string().required('PHID is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    phid: '',
-    email: '',
-    password: '',
+    // phid: '',
+    email: 'dd@g.com',
+    password: 'patient123',
     remember: true,
   };
 
@@ -42,15 +43,29 @@ export default function LoginForm() {
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
-
-  const onSubmit = async () => {
-    navigate('/dashboard', { replace: true });
+  const [patientId,setPatientId] = useAtom(loginData);
+  const onSubmit = async (values) => {
+    // TODO axios here
+    console.log(values)
+    try{
+        const response = await axios.post('auth/login',{
+        email: values.email,
+        password: values.password
+      });
+      
+      console.log(response.data)
+      setPatientId(response.data)
+      navigate('/dashboard', { replace: true });
+    }catch(e){
+      console.log(e)
+      alert(e)
+    }
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        <RHFTextField name="phid" label="PHID" />
+        {/* <RHFTextField name="phid" label="PHID" /> */}
         <RHFTextField name="email" label="Email address" />
 
         <RHFTextField
@@ -67,7 +82,7 @@ export default function LoginForm() {
             ),
           }}
         />
-        <DoctorSort/>
+        
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>

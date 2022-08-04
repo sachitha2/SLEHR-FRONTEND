@@ -1,3 +1,5 @@
+import * as Yup from 'yup';
+import {useAtom} from 'jotai';
 import { filter } from 'lodash';
 import { useState,useEffect } from 'react';
 // material
@@ -17,11 +19,16 @@ import {
   TablePagination,
   Modal,
   Box,
-  TextField,
   InputLabel,
   Select,
   MenuItem
 } from '@mui/material';
+
+// form
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { FormProvider,RHFTextField } from '../../components/hook-form';
+// form end
 import Scrollbar from '../../components/Scrollbar';
 // components
 import Page from '../../components/Page';
@@ -33,11 +40,12 @@ import axios from '../../utils/axios';
 // config
 import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
+import {loginData,patientIdAtom} from '../../App'
 
 const TABLE_HEAD = [
-  { id: 'date', label: 'Date', alignRight: false },
-  { id: 'title', label: 'Title', alignRight: false },
-  { id: 'description', label: 'Description', alignRight: false },
+  { id: 'fromDate', label: 'Date', alignRight: false },
+  { id: 'toDate', label: 'End Date', alignRight: false },
+  { id: 'vaccine', label: 'Vaccine', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -84,7 +92,8 @@ const style = {
 };
 
 export default function Vaccines() {
-
+  const [logindata,setLoginData] = useAtom(loginData);
+  const [patientId,setPatientId] = useAtom(patientIdAtom);
   const [page, setPage] = useState(0);
   const [vaccinesList,setVaccinesList] = useState([{id:1,avatarUrl:`/static/mock-images/avatars/avatar_${1}.jpg`,name:'sachitha hirushan',company:'company',isVerified:false}]);
 
@@ -145,17 +154,20 @@ export default function Vaccines() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
-
+  // Modal 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   // Fetch data start
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('vaccine/2',
+        const response = await axios.get(`vaccine/${patientId}`,
         {
           headers: {
-            Authorization: `Bearer ${TEMP_TOKEN}`
+            Authorization: `Bearer ${logindata.token}`
           }
         }
         );
@@ -166,17 +178,65 @@ export default function Vaccines() {
       }
     }
     fetchData();
-  }, []);
+  }, [open]);
   const [tag, setTag] = useState('');
 
   const handleChange = (event) => {
     setTag(event.target.value);
   };
   // Fetch data end
-  // Modal 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  
+  // form start
+  const LoginSchema = Yup.object().shape({
+    vaccine: Yup.string().required('Vaccine is required'),
+    note: Yup.string().required('Note is required'),
+    fromDate: Yup.string().required('From Date is required'),
+    toDate: Yup.string().required('To date is required'),
+  });
+
+  const defaultValues = {
+    vaccine: '',
+    note: '',
+    doctor: logindata.id,
+    fromDate:'',
+    toDate:'',
+    remember: true,
+  };
+  const methods = useForm({
+    resolver: yupResolver(LoginSchema),
+    defaultValues,
+  });
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
+  // const [patientId,setPatientId] = useAtom(loginData);
+  const onSubmit = async (values) => {
+    // TODO axios here
+    console.log(logindata.id)
+    try{
+        const response = await axios.post('vaccine',{
+          doctor:logindata.id, 
+          patient:patientId,
+          note:values.note, 
+          toDate:values.toDate, 
+          fromDate:values.fromDate, 
+          vaccine:values.vaccine,
+      },{
+        headers: {
+          Authorization: `Bearer ${logindata.token}`
+        }
+      });
+      setOpen(false)
+      console.log(response.data)
+      // setPatientId(response.data)
+      // navigate('/dashboard', { replace: true });
+    }catch(e){
+      console.log(e)
+      alert(e)
+    }
+  };
+  // form end
   return (
     <Page title="Dashboard: Blog">
       <Container>
@@ -193,21 +253,26 @@ export default function Vaccines() {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
+            <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={1}>
 
               
               <Typography id="modal-modal-title" variant="h3" component="h2">
                 Add Vaccines
               </Typography>
-              <TextField disabled fullWidth id="doctor"  variant="outlined" value="doctor id"/>
+              <RHFTextField disabled fullWidth name="doctor"  variant="outlined"/>
               <Typography id="modal-modal-title" variant="h6" component="h2">
-                Date
+                From Date
               </Typography>
-              <TextField type="date" fullWidth id="date"  variant="outlined" />
+              <RHFTextField type="date" fullWidth name="fromDate"  variant="outlined" />
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                To Date
+              </Typography>
+              <RHFTextField type="date" fullWidth name="toDate"  variant="outlined" />
               <Typography id="modal-modal-title" variant="h5" component="h2">
                 Vaccines Details
               </Typography>
-              <InputLabel id="tag-label">Tag</InputLabel>
+              {/* <InputLabel id="tag-label">Tag</InputLabel>
               <Select
                 labelId="tag-label"
                 id="tag-select"
@@ -218,11 +283,12 @@ export default function Vaccines() {
                 <MenuItem value={10}>Tag1</MenuItem>
                 <MenuItem value={20}>Tag2</MenuItem>
                 <MenuItem value={30}>Tag13</MenuItem>
-              </Select>
-              <TextField type="text" fullWidth id="title"  label="Title" variant="outlined" />
-              <TextField type="text" multiline rows={4} fullWidth id="description"  label="Description" variant="outlined" />
-              <Button variant="contained">Save</Button>
+              </Select> */}
+              <RHFTextField type="text" fullWidth name="vaccine"  label="Vaccine" variant="outlined" />
+              <RHFTextField type="text" multiline rows={4} fullWidth name="note"  label="Notes" variant="outlined" />
+              <Button variant="contained" type="submit">Save</Button>
               </Stack>
+              </FormProvider>
             </Box>
           </Modal>
     </div>
@@ -245,7 +311,7 @@ export default function Vaccines() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name,date,title,description } = row;
+                    const { id, name,fromDate,toDate,vaccine } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -263,12 +329,12 @@ export default function Vaccines() {
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
                             <Typography variant="subtitle2" noWrap>
-                              {date}
+                              {fromDate}
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{title}</TableCell>
-                        <TableCell align="left">{description}</TableCell>
+                        <TableCell align="left">{toDate}</TableCell>
+                        <TableCell align="left">{vaccine}</TableCell>
                       </TableRow>
                     );
                   })}

@@ -1,7 +1,5 @@
-import * as Yup from 'yup';
 import { filter } from 'lodash';
 import { useState,useEffect } from 'react';
-import {useAtom} from 'jotai';
 // material
 // material
 import {
@@ -19,14 +17,11 @@ import {
   TablePagination,
   Modal,
   Box,
+  TextField,
   InputLabel,
   Select,
   MenuItem
 } from '@mui/material';
-// form
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider,RHFTextField } from '../../components/hook-form';
 import Scrollbar from '../../components/Scrollbar';
 // components
 import Page from '../../components/Page';
@@ -38,8 +33,6 @@ import axios from '../../utils/axios';
 // config
 import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
-
-import {loginData,patientIdAtom} from '../../App'
 
 const TABLE_HEAD = [
   { id: 'startDate', label: 'Start Date', alignRight: false },
@@ -93,8 +86,6 @@ const style = {
 };
 
 export default function Prescriptions() {
-  const [logindata,setLoginData] = useAtom(loginData);
-  const [patientId,setPatientId] = useAtom(patientIdAtom);
 
   const [page, setPage] = useState(0);
   const [vaccinesList,setPrescriptionsList] = useState([{id:1,avatarUrl:`/static/mock-images/avatars/avatar_${1}.jpg`,name:'sachitha hirushan',company:'company',isVerified:false}]);
@@ -157,19 +148,16 @@ export default function Prescriptions() {
   const isUserNotFound = filteredUsers.length === 0;
 
 
-// Modal 
-const [open, setOpen] = useState(false);
-const handleOpen = () => setOpen(true);
-const handleClose = () => setOpen(false);
+
   // Fetch data start
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(`prescription/${patientId}`,
+        const response = await axios.get('prescription/2',
         {
           headers: {
-            Authorization: `Bearer ${logindata.token}`
+            Authorization: `Bearer ${TEMP_TOKEN}`
           }
         }
         );
@@ -180,145 +168,20 @@ const handleClose = () => setOpen(false);
       }
     }
     fetchData();
-  }, [open]);
+  }, []);
   const [tag, setTag] = useState('');
 
   const handleChange = (event) => {
     setTag(event.target.value);
   };
   // Fetch data end
-  
-
-  // form start
-  const LoginSchema = Yup.object().shape({
-    medication: Yup.string().required('Medication is required'),
-    date: Yup.string().required('Date is required'),
-    qty: Yup.string().required('QTY is required'),
-    refills: Yup.string().required('Refill is required'),
-    startdate: Yup.string().required('Start Date is required'),
-    stopdate: Yup.string().required('Stop Date required'),
-    instructions: Yup.string().required('Instruction is required')
-  });
-
-  const defaultValues = {
-    medication: '',
-    date: '',
-    qty: '',
-    refills:'',
-    startdate:'',
-    stopdate:'',
-    instructions:'',
-    doctor: logindata.id,
-    remember: true,
-  };
-  const methods = useForm({
-    resolver: yupResolver(LoginSchema),
-    defaultValues,
-  });
-
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
-  // const [patientId,setPatientId] = useAtom(loginData);
-  const onSubmit = async (values) => {
-    // TODO axios here
-    console.log(logindata.id)
-    try{
-        const response = await axios.post('prescription',{
-          AddedDate:values.date, 
-          startDate:values.startdate, 
-          stopDate:values.stopdate, 
-          medication:values.medication, 
-          instructions:values.instructions, 
-          refills:values.refills, 
-          quantity: values.qty, 
-          doctor:logindata.id, 
-          patient:patientId
-      },{
-        headers: {
-          Authorization: `Bearer ${logindata.token}`
-        }
-      });
-      setOpen(false)
-      console.log(response.data)
-      // setPatientId(response.data)
-      // navigate('/dashboard', { replace: true });
-    }catch(e){
-      console.log(e)
-      alert(e)
-    }
-  };
-  // form end
+  // Modal 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <Page title="Dashboard: Blog">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          
-          <Button onClick={handleOpen} variant="contained"  startIcon={<Iconify icon="eva:plus-fill" />}>
-            Add Prescriptions
-          </Button>
-          <div>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            
-            <Box sx={style}>
-              <Scrollbar>
-              <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-              <Stack spacing={1}>
-              
-              
-              <Typography id="modal-modal-title" variant="h4" component="h2">
-                Add Prescriptions
-              </Typography>
-              <RHFTextField disabled fullWidth name="doctor"  variant="outlined"/>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Date
-              </Typography>
-              <RHFTextField type="date" fullWidth name="date"  variant="outlined" />
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Prescriptions Details
-              </Typography>
-              <RHFTextField type="text" fullWidth name="medication"  label="Medication" variant="outlined" />
-              <RHFTextField type="text" fullWidth name="qty"  label="Qty" variant="outlined" />
-              <RHFTextField type="text" fullWidth name="refills"  label="Refills" variant="outlined" />
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Start Date
-              </Typography>
-              <RHFTextField type="date" fullWidth name="startdate"  variant="outlined" />
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Stop Date
-              </Typography>
-              <RHFTextField type="date" fullWidth name="stopdate"  variant="outlined" />
-              {/* <InputLabel id="tag-label">Tag</InputLabel>
-              <Select
-                labelId="tag-label"
-                id="tag-select"
-                value={tag}
-                label="Tag"
-                onChange={handleChange}
-              >
-                <MenuItem value={10}>Tag1</MenuItem>
-                <MenuItem value={20}>Tag2</MenuItem>
-                <MenuItem value={30}>Tag13</MenuItem>
-              </Select> */}
-              {/* <RHFTextField type="text" fullWidth id="title"  label="Title" variant="outlined" /> */}
-              <RHFTextField type="text" multiline rows={2} fullWidth name="instructions"  label="Instructions" variant="outlined" />
-              <Button type='submit' variant="contained">Save</Button>
-              </Stack>
-              </FormProvider>
-              </Scrollbar>
-              
-            </Box>
-            
-          </Modal>
-    </div>
-        </Stack>
-
         {/* TABLE start */}
         <Card>
           
