@@ -25,7 +25,6 @@ import {
 } from '@mui/material';
 
 // form
-
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider,RHFTextField } from '../../components/hook-form';
@@ -41,6 +40,7 @@ import axios from '../../utils/axios';
 import { TEMP_TOKEN } from '../../config';
 // ----------------------------------------------------------------------
 import {loginData,patientIdAtom} from '../../App'
+import AddLabTestCom from '../../components/AddLabTestCom';
 
 const TABLE_HEAD = [
   { id: 'date', label: 'Date', alignRight: false },
@@ -263,26 +263,9 @@ const handleClose = () => setOpen(false);
           >
             <Box sx={style}>
               {logindata.userType === "PATHOLOGIST" ? 
-                <>
-                 <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-              <Stack spacing={1}>
-              <Typography id="modal-modal-title" variant="h3" component="h2">
-                Add Lab Test
-              </Typography>
-              <RHFTextField disabled fullWidth name="doctor"  variant="outlined"/>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Date
-              </Typography>
-              <RHFTextField type="date" fullWidth name="date"  variant="outlined" />
-
-              <Typography id="modal-modal-title" variant="h3" component="h2">
-                Lab Test file url
-              </Typography>
-              <RHFTextField type="text" multiline rows={4} fullWidth name="fileLocation"  label="File url" variant="outlined" />
-              <Button variant="contained" type="submit">Save</Button>
-              </Stack>
-              </FormProvider>
-                </>
+                
+                <AddLabTestCom/>
+                 
                 :
                 <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={1}>
