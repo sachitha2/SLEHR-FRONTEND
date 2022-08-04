@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import {useAtom} from 'jotai';
 import PropTypes from 'prop-types';
 import { NavLink as RouterLink, matchPath, useLocation } from 'react-router-dom';
 // material
@@ -6,6 +7,7 @@ import { alpha, useTheme, styled } from '@mui/material/styles';
 import { Box, List, Collapse, ListItemText, ListItemIcon, ListItemButton } from '@mui/material';
 //
 import Iconify from './Iconify';
+import {loginData} from '../App'
 
 // ----------------------------------------------------------------------
 
@@ -35,6 +37,8 @@ NavItem.propTypes = {
 };
 
 function NavItem({ item, active }) {
+
+  
   const theme = useTheme();
 
   const isActiveRoot = active(item.path);
@@ -141,7 +145,7 @@ NavSection.propTypes = {
 
 export default function NavSection({ navConfig, ...other }) {
   const { pathname } = useLocation();
-
+  const [logindata,setLogindata] = useAtom(loginData);
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
   const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
   return (
@@ -151,8 +155,15 @@ export default function NavSection({ navConfig, ...other }) {
           
           <NavItem key={item.title} item={item} active={match} />
         ))}
-        <NavItem key={"Add Patient"} item={{title:"Add Patient",path: '/dashboard/addPatient',icon: getIcon('eva:people-fill')}} active={match} />
+        {/* show only in ATTENDANT logic */}
+        {
+            logindata?.userType === 'ATTENDANT' ?
+            <NavItem key={"Add Patient"} item={{title:"Add Patient",path: '/dashboard/addPatient',icon: getIcon('eva:people-fill')}} active={match} />
       
+            :
+            ""
+        }
+        
       </List>
     </Box>
   );
