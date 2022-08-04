@@ -74,7 +74,7 @@ export default function Doctor() {
         }
         {
           patientId === "" ? null : 
-          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
+          <Stack direction="row" alignItems="center"  mb={5} mt={5} spacing={2}>
             
             PHID {patientId}
             {/* <Button variant="contained" component={RouterLink} to="">
@@ -83,6 +83,9 @@ export default function Doctor() {
             <Button variant="contained" disabled={clickButton === "demographic" } component={RouterLink} to="demographic" onClick={()=>clickedButton('demographic')}>
               Demographic
             </Button>
+            {/* //show only for doctor */}
+            {logindata.userType !== "DOCTOR" ? '':
+            <>
             <Button variant="contained" component={RouterLink} disabled={clickButton === "diagnoses" } to="diagnoses" onClick={()=>clickedButton('diagnoses')}>
               Diagnoses
             </Button>
@@ -92,15 +95,34 @@ export default function Doctor() {
             <Button variant="contained" component={RouterLink} disabled={clickButton === "allergies" } to="allergies" onClick={()=>clickedButton('allergies')}>
               Allergies
             </Button>
+            </>
+            }
+
+            { 
+            logindata.userType === "DOCTOR" || logindata.userType === "PATHOLOGIST" ?
             <Button variant="contained" component={RouterLink} disabled={clickButton === "labtests" } to="labtests" onClick={()=>clickedButton('labtests')}>
               Lab Tests
             </Button>
+            :
+            null
+            }
+            { 
+            logindata.userType === "DOCTOR" || logindata.userType === "RADIOGRAPHER" ? 
             <Button variant="contained" component={RouterLink} disabled={clickButton === "scans" } to="scans" onClick={()=>clickedButton('scans')}>
               Scans
             </Button>
+            :
+            null
+            }
+
+            { 
+            logindata.userType === "DOCTOR" || logindata.userType === "PHARMACIST" ? 
             <Button variant="contained" component={RouterLink} disabled={clickButton === "prescriptions" } to="prescriptions" onClick={()=>clickedButton('prescriptions')}>
               Prescriptions
             </Button>
+            :
+            null
+            }
         </Stack>
         }
         
