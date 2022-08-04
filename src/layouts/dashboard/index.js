@@ -35,7 +35,7 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
-  const [patientId,setPatientId] = useAtom(loginData);
+  const [logindata,setLogindata] = useAtom(loginData);
   const navigate = useNavigate();
 
   const loginAgain = () => {
@@ -46,7 +46,7 @@ export default function DashboardLayout() {
       
       <>
       
-        {patientId.id === "" ? loginAgain() : 
+        {logindata.token === "" ? loginAgain() : 
         <RootStyle>
           <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
           <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />

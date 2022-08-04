@@ -211,7 +211,6 @@ export default function Allergies() {
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
-  // const [patientId,setPatientId] = useAtom(loginData);
   const onSubmit = async (values) => {
     // TODO axios here
     console.log(logindata.id)

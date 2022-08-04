@@ -43,7 +43,7 @@ export default function LoginForm() {
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
-  const [patientId,setPatientId] = useAtom(loginData);
+  const [logindata,setLoginData] = useAtom(loginData);
   const onSubmit = async (values) => {
     // TODO axios here
     console.log(values)
@@ -54,7 +54,7 @@ export default function LoginForm() {
       });
       
       console.log(response.data)
-      setPatientId(response.data)
+      setLoginData(response.data)
       navigate('/dashboard', { replace: true });
     }catch(e){
       console.log(e)
